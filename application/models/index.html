@@ -1,0 +1,27 @@
+<html>
+<head>
+	<title>403 Forbidden</title>
+</head>
+<body>
+
+<p>Directory access is forbidden.</p>
+
+</body>
+</html>
+    // old
+    // public function datasKegiatan($id)
+    // {
+    //     $query =$this->db->query("
+    //     SELECT * FROM 
+    //         ((SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kualitas' as jenis FROM simkin.kualitas)UNION
+    //         (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'perilaku'	as jenis FROM simkin.perilaku)UNION
+    //         (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kuantitas' as jenis from simkin.kuantitas_pegawai)UNION
+    //         (SELECT id,id_jenis_pos,id_pos,bb.kategori_tindakan_header_nama as indikator,target,bobot,definisi_ops,'kuantitas' as jenis from kuantitas_dokter as aa INNER JOIN klinik.klinik_kategori_tindakan_header as bb on aa.id_header=bb.kategori_tindakan_header_id))a WHERE id_pos='".$id."'
+    //     ");
+    //     $indikator = $query->result();
+    //     if(!empty($indikator)){
+    //         return $indikator;
+    //      } else {
+    //         return array();
+    //     }
+    // }
