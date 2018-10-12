@@ -316,7 +316,7 @@ $(function(){
         </div>
         <div class="form-group">
             <label >Capaian</label>
-            <input type="number" min='1' name="nilai" id="nilai" class="form-control" readonly required>
+            <input type="number" min='-1' name="nilai" id="nilai" class="form-control" readonly required>
         </div>
         
         </div>

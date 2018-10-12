@@ -16,32 +16,44 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-            <table >
-        <thead>
-        </thead>
-        <tbody>
-            <tr id="filter_col3" data-column="2">
-                <td>Filter Tanggal Kunjungan</td>
-                <td align="center"><input class="column_filter form-control" id="min" type="text"></td>
-                <td>Hingga</td>
-                <td align="center"><input class="column_filter form-control" id="max" type="text"></td>
-            </tr>
-            <tr id="filter_col2" data-column="1">
-                <td>Filter Nama Pasien</td>
-                <td align="center"><input class="column_filter form-control" id="col1_filter" type="text"></td>
-            </tr>
-            <tr id="filter_col4" data-column="3">
-                <td>Filter Tindakan</td>
-                <td align="center">
-                  <select class="column_filter form-control" id="col3_filter">
-                    <option value=""></option>  
-                    <?php foreach ($tindakan as $key ) { ?>
-                    <option value="<?=$key->fol_nama?>"><?=$key->fol_nama?></option>  
-                    <?php }?>
-                  </select></td>
-            </tr>
-        </tbody>
-        </table>
+            <form action="<?php echo base_url()?>member/tindakan_pasien" method="post">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label >Tanggal</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                <input type="text" name="min" id="min" class="form-control" placeholder="Tanggal Awal" value="<?php if(!empty($min)){echo $min;}?>">
+                                </div>
+                                <div class="col-md-6">
+                                <input type="text" name="max" id="max" class="form-control" placeholder="Tanggal Akhir" value="<?php if(!empty($max)){echo $max;}?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label >Tindakan</label>
+                            <select class="column_filter form-control" name="tindakan" id="tindakan">
+                                <option value=""></option>  
+                                <?php foreach ($tindakan as $key ) { ?>
+                                <option value="<?=$key->fol_nama?>"  <?php if($fol_nama==$key->fol_nama){echo "selected";}?>><?=$key->fol_nama?></option>  
+                                <?php }?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">      
+                        <div class="form-group">
+                            <label >Nama Pasien</label>
+                            <input type="text" name="nama" id="nama" class="form-control"  value="<?php if(!empty($nama)){echo $nama;}?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <input type="reset" value="Reset" id="reset" class="btn btn-warning" >
+                    <input type="submit" value="Filter" class="btn btn-primary" >
+                </div>
+            </div>
+            </form>
             </div>
         </div>
       </div>
@@ -87,37 +99,9 @@
 </div>
 
 <script type="text/javascript">
-     $(document).ready(function(){
-        $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) {
-            var min = $('#min').datepicker("getDate");
-            var max = $('#max').datepicker("getDate");
-            var startDate = new Date(data[2]);
-            // alert(startDate);
-            if (min == null && max == null) { return true; }
-            if (min == null && startDate <= max) { return true;}
-            if(max == null && startDate >= min) {return true;}
-            if (startDate <= max && startDate >= min) { return true; }
-            return false;
-        }
-        );
-
-       
+ $(document).ready( function () {
             $("#min").datepicker({ format: 'yyyy-mm-dd',onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
             $("#max").datepicker({ format: 'yyyy-mm-dd',onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
-            var table = $('#table').DataTable();
-
-            // Event listener to the two range filtering inputs to redraw on input
-            $('#min, #max').change(function () {
-                table.draw();
-            });
-        });
-function filterColumn ( i ) {
-      $('#table').DataTable().column(i).search(
-          $('#col'+i+'_filter').val(),
-      ).draw();
-}
- $(document).ready( function () {
     $('#table').DataTable({"lengthMenu": [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "All"] ],
             "bDestroy": true,"processing": true,"dom": 'lBfrtip',"buttons": [
             {
@@ -136,12 +120,11 @@ function filterColumn ( i ) {
                 ]
             }
         ]});
- 
-    $('input.column_filter').on('keyup change', function () {
-        filterColumn( $(this).parents('tr').attr('data-column') );
-    } );
-    $('select.column_filter').on('click', function () {
-        filterColumn( $(this).parents('tr').attr('data-column') );
-    } );
+    $("#reset").click(function() {
+        $("#min").removeAttr('value');
+        $("#max").removeAttr('value');
+        $("#tindakan option:selected").removeAttr('selected');
+        $("#nama").removeAttr('value');
+    })
 } );
  </script>
