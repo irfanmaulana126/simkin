@@ -67,9 +67,11 @@ class Dashboard extends BaseController
                           <p class="info-box-text">Nilai :'. $row->nilai.'</p>
                          
                         </div>
-                        <div class="timeline-footer">
-                          <a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.',\''.$row->jenis.'\')"><i class="fa fa-pencil"></i></a>
-                            &nbsp;
+                        <div class="timeline-footer">';
+                        if(date('Y-m-d', strtotime($row->created_at))==date('Y-m-d')){
+                            $output .= '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.',\''.$row->jenis.'\')"><i class="fa fa-pencil"></i></a>';
+                        }
+                        $output .='&nbsp;
                           <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="'.$row->id.'" data-tipe="\''.$row->jenis.'\'"><i class="fa fa-trash"></i></a>
                         </div>
                       </div>

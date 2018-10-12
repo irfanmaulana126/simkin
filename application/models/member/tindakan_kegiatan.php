@@ -18,6 +18,7 @@ class tindakan_kegiatan extends CI_Model
         $this->db->join('global.global_customer_user as i ','b.id_cust_usr=i.cust_usr_id');
         $this->db->where('usr_id = ',$this->session->userdata('userId'));
 		$this->db->order_by('tindakan_tanggal','desc');
+		$this->db->group_by(array('cust_usr_nama','b.tindakan_tanggal','nama_pgw','fol_nama'));
 		if (!empty($filter)) $query = $this->db->where($filter);
         $indikator =  $this->db->get()->result();
         if(!empty($indikator)){

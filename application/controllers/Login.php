@@ -86,7 +86,14 @@ class Login extends CI_Controller
             if($res->rol_name=='PIMPINAN'){
                 redirect('admin/Dashboard');
             }else{
-                redirect('member/Dashboard');                        
+                if (!empty($this->session->userdata('unit'))) {
+                    redirect('member/Dashboard');                        
+                } else {
+                    $this->session->set_userdata('isLoggedIn',FALSE);
+                    $this->session->set_flashdata('error', 'Akun anda belum terdaftar dikami hubungi PDE');
+                    redirect('/login');                   
+                }
+                
             }
             }
             else
