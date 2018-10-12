@@ -68,9 +68,9 @@ class Dashboard extends BaseController
                          
                         </div>
                         <div class="timeline-footer">
-                          <a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.','.$row->jenis.')"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.',\''.$row->jenis.'\')"><i class="fa fa-pencil"></i></a>
                             &nbsp;
-                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="'.$row->id.'" data-tipe="'.$row->jenis.'"><i class="fa fa-trash"></i></a>
+                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="'.$row->id.'" data-tipe="\''.$row->jenis.'\'"><i class="fa fa-trash"></i></a>
                         </div>
                       </div>
                     </li>
