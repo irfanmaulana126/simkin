@@ -32,6 +32,42 @@ $str='
         <td><hr></td>
     </tr>	
 </table>
+<table>
+	<tr>
+		<td width="90px">
+			Nama Dokter
+		</td>
+		<td>
+			 '.$this->session->userdata('pgw_nama').'
+		</td>
+
+	</tr>	
+    	<tr>
+		<td>
+			Jumlah Pasien
+		</td>
+		<td>
+            '.count($indikator).'
+		</td>
+
+	</tr>	
+    <tr>
+		<td>
+			Tanggal
+		</td>
+        <td>        
+        '.date('F-Y', strtotime($dates)).'
+		</td>
+
+	</tr>	
+    	
+    <tr>	
+    	<td>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
 <table border="1" cellpadding="5">
     <thead>
         <tr align="center" bgcolor="#d3d3d3">

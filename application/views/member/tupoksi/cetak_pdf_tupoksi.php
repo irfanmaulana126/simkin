@@ -51,6 +51,15 @@ $str='
 		</td>
 
 	</tr>	
+    <tr>
+		<td>
+			Tanggal
+		</td>
+        <td>        
+        '.date('F-Y', strtotime($dates)).'
+		</td>
+
+	</tr>	
     	
     <tr>	
     	<td>

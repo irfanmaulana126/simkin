@@ -58,11 +58,13 @@ class Tupoksi extends BaseController
     public function cetak_detail_tupoksi($tupoksi,$dates)
     {
         $data['indikator']=$this->tupoksi_model->datasDetailTupoksiKuantitasPegawai($tupoksi,$dates);
+        $data['dates']=$dates;
         $this->loadViewsMember("member/tupoksi/cetak_pdf_tupoksi", $data , NULL);  
     }
     public function cetak_detail_all($dates)
     {
         $data['indikator']=$this->tupoksi_model->datasDetailAllTupoksiKuantitasPegawai($dates); 
+        $data['dates']=$dates;
         $this->loadViewsMember("member/tupoksi/cetak_pdf_all", $data , NULL);  
     }
     function pageNotFound()

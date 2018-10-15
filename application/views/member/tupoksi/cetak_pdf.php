@@ -58,7 +58,16 @@ $str='
 		<td>
         '.$this->session->userdata('nama_unit').'
 		</td>
-    </tr>	
+    </tr>
+    	<tr>
+		<td>
+			Tanggal
+		</td>
+		<td>
+        '.date('F-Y', strtotime($dates)).'
+		</td>
+
+	</tr>		
     <tr>	
     	<td>
         </td>
