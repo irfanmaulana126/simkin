@@ -11,16 +11,17 @@
     <style>
          @font-face { font-family: Bebas; src: url('<?php echo base_url();?>assets/font/BebasNeue.otf'); }
          @font-face { font-family: Mermaid; src: url('<?php echo base_url();?>assets/font/Mermaid1001.tff'); }
-         #login-side{
+         /* #login-side{
             height: 100vh;
             padding-top: 50px;
-          }
+          } */
           #title-side{
-              padding-top: 15%;
               text-align: center;;
+              top:50px;
           }
           #sub-title {
             margin-bottom: -20px;
+            padding-top: 15px;
             font-family: "Mermaid";
             font-size: 16pt;
           }
@@ -87,7 +88,7 @@
       </div>
       <div class="col-md-4" id="login-side">
         <div class="login-box">
-          <div class="login-box-body">
+          <div class="login-box-body" style="margin-left: 20px;">
               <div  id="logo">
                   <img src="<?php echo base_url();?>assets/images/logo-sultra.png" alt="" />
                   <p>
