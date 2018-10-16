@@ -67,32 +67,6 @@
 			</div>
 			<?php }?>
           <div class="row">
-            <div class="col-md-3 col-xs-6">
-              <div class="box box-primary">
-                  <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url(); ?>assets/dist/img/avatar5.png" alt="User profile picture">
-
-                    <h3 class="profile-username text-center"> <?php echo $this->session->userdata('pgw_nama'); ?></h3>
-
-                    <p class="text-muted text-center">Software Engineer</p>
-
-                    <ul class="list-group list-group-unbordered">
-                      <li class="list-group-item">
-                        <b>Kuantitas</b> <a class="pull-right">0 %</a>
-                      </li>
-                      <li class="list-group-item">
-                        <b>Kualitas</b> <a class="pull-right">0 %</a>
-                      </li>
-                      <li class="list-group-item">
-                        <b>Perilaku</b> <a class="pull-right">0 %</a>
-                      </li>
-                    </ul>
-
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal"><b>Upload Foto</b></button>
-                  </div>
-                  <!-- /.box-body -->
-              </div>
-            </div>
             <div class="col-lg-9">
               <div class="panel panel-primary">
                   <div class="panel-heading"><b>Your Time Line</b></div>
@@ -122,6 +96,32 @@
                 </div>
               </div>
               <!-- /.nav-tabs-custom -->
+            </div>
+            <div class="col-md-3">
+              <div class="box box-primary">
+                  <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url(); ?>assets/dist/img/avatar5.png" alt="User profile picture">
+
+                    <h3 class="profile-username text-center"> <?php echo $this->session->userdata('pgw_nama'); ?></h3>
+
+                    <p class="text-muted text-center">Software Engineer</p>
+
+                    <ul class="list-group list-group-unbordered">
+                      <li class="list-group-item">
+                        <b>Kuantitas</b> <a class="pull-right">0 %</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Kualitas</b> <a class="pull-right">0 %</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Perilaku</b> <a class="pull-right">0 %</a>
+                      </li>
+                    </ul>
+
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal"><b>Upload Foto</b></button>
+                  </div>
+                  <!-- /.box-body -->
+              </div>
             </div>
           </div>
     </section>

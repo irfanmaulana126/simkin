@@ -141,7 +141,7 @@
                     </label>
                   </div>  -->                       
                 </div><!-- /.col -->
-                <div class="col-xs-4">
+                <div class="col-xs-6 pull-right">
                   <input type="submit" class="btn btn-primary btn-block btn-flat" value="Sign In" />
                 </div><!-- /.col -->
               </div>
