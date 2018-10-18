@@ -212,7 +212,7 @@ jQuery(document).ready(function(){
 		var confirmation = confirm("Are you sure to delete this ?");
 		if(confirmation)
 		{
-      alert(tipes);
+      // alert(tipes);
 			jQuery.ajax({
 			type : "POST",
 			dataType : "JSON",
