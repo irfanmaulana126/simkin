@@ -207,25 +207,22 @@ jQuery(document).ready(function(){
 	jQuery(document).on("click", ".deleteUser", function(){
 		var userId = $(this).data("id"),
 		  tipes = $(this).data("tipe"),
-			hitURL = baseURL + "admin/Indikator_tindakan_kualitas/delete",
 			currentRow = $(this);
-		
-		var confirmation = confirm("Are you sure to delete this user ?");
-		
+	
+		var confirmation = confirm("Are you sure to delete this ?");
 		if(confirmation)
 		{
+      alert(tipes);
 			jQuery.ajax({
 			type : "POST",
-			dataType : "json",
-			url : hitURL,
-			data : { id : userId,tipe:tipes } 
-			}).done(function(data){
-				console.log(data);
-				currentRow.parents('tr').remove();
-				if(data.status = true) { alert("User successfully deleted"); }
-				else if(data.status = false) { alert("User deletion failed"); }
-				else { alert("Access denied..!"); }
-			});
+			dataType : "JSON",
+			url : baseURL + "member/Dashboard/delete",
+			data : { id : userId,tipe:tipes },
+      success: function(data)
+        {
+          window.location='<?php echo base_url(); ?>member/Dashboard';
+        }, 
+			})
 		}
 	});
 	

@@ -2,6 +2,26 @@
 
 class dashboard_model extends CI_Model
 {
+    public function datasKegiatanApi($id,$tupoksi)
+    {
+        $query =$this->db->query("
+        SELECT * FROM 
+            ((SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kualitas' as jenis FROM simkin.kualitas)UNION
+            (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'perilaku'	as jenis FROM simkin.perilaku)UNION
+            (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kuantitas' as jenis from simkin.kuantitas_pegawai))a WHERE id_pos='".$id."' and jenis ='".$tupoksi."'
+        ");
+        $indikator = $query->result();
+        $lists = "<option value=''>-Pilih Tupoksi-</option>";
+        foreach($indikator as $data){
+          $lists .= "<option value='".$data->id."'>".$data->indikator."-".$data->difinisi_ops."</option>"; // Tambahkan tag option ke variabel $lists
+        }
+        $callback = array('kegiatan'=>$lists);
+        if(!empty($callback)){
+            return $callback;
+         } else {
+            return array();
+        }
+    }
     public function datasKegiatan($id)
     {
         $query =$this->db->query("

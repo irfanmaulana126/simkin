@@ -280,6 +280,34 @@ class Dashboard extends BaseController
                 }
                 redirect('/member/dashboard');
     }
+    function delete()
+    {
+                $id = $this->input->post('id');
+                $tipe = $this->input->post('tipe');
+                switch ($tipe) {
+                    case '\'kuantitas\'':
+                            $userInfo = array(  
+                                'aktif'=>'N'
+                            );
+                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kuantitas');
+                        break;
+                    case '\'kualitas\'':
+                            $userInfo = array(   
+                                'aktif'=>'N'
+                            );
+                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kualitas');
+                        break;
+                    case '\'perilaku\'': $userInfo = array(  
+                                'aktif'=>'N'
+                            );
+                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_perilaku');
+                        break;
+                    default:
+                redirect('/member/dashboard');
+                        break;
+                }
+                redirect('/member/dashboard');
+    }
     function oldEdit($id = NULL,$tipe = NULL)
     {
         switch ($tipe) {

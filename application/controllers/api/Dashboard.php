@@ -27,7 +27,8 @@ class Dashboard extends REST_Controller
         
         header('Access-Control-Allow-Origin: *');
         $unit = $this->input->post('unit');
-        $data=$this->dashboard_model->datasKegiatan($unit);
+        $tupoksi = $this->input->post('tupoksi');
+        $data=$this->dashboard_model->datasKegiatanApi($unit,$tupoksi);
         $this->response($data);
     }
     function fetch_post()
@@ -111,59 +112,62 @@ class Dashboard extends REST_Controller
     }
 }
 	
-    function addNew()
+    function addNew_post()
     {
+        header('Access-Control-Allow-Origin: *');
                 $tupoksi = $this->input->post('tupoksi');
                 $id_tupoksi = $this->input->post('id_tupoksi');
                 $nilai = $this->input->post('nilai');
+                $userId = $this->input->post('userId');
+                $name = $this->input->post('name');
                 switch ($tupoksi) {
                     case 'kuantitas':
                             $userInfo = array(  
                                 'id_tupoksi'=>$id_tupoksi,
                                 'nilai'=>$nilai,
                                 'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
+                                'usr_id'=>$userId,
                                 'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
+                                'usr_insrt'=>$name
                             );
-                            $result = $this->dashboard_model->add($userInfo,'tupoksi_kuantitas');
+                            $this->dashboard_model->add($userInfo,'tupoksi_kuantitas');
                         break;
                     case 'kualitas':
                         $userInfo = array(   
                             'id_tupoksi'=>$id_tupoksi,
-                            'nilai'=>$nilai,
-                            'aktif'=>'Y',
-                            'usr_id'=>$this->session->userdata('userId'),
-                            'created_at'=>date('Y-m-d H:i:s'),
-                            'usr_insrt'=>$this->session->userdata ('name')
+                                'nilai'=>$nilai,
+                                'aktif'=>'Y',
+                                'usr_id'=>$userId,
+                                'created_at'=>date('Y-m-d H:i:s'),
+                                'usr_insrt'=>$name
                         );
-                        $result = $this->dashboard_model->add($userInfo,'tupoksi_kualitas');
+                        $this->dashboard_model->add($userInfo,'tupoksi_kualitas');
                         break;
                     case 'perilaku':
                             $userInfo = array(  
                                 'id_tupoksi'=>$id_tupoksi,
                                 'nilai'=>$nilai,
                                 'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
+                                'usr_id'=>$userId,
                                 'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
+                                'usr_insrt'=>$name
                             );
-                            $result = $this->dashboard_model->add($userInfo,'tupoksi_perilaku');
-                        break;
-                    default:
-                redirect('/member/dashboard');
+                            $this->dashboard_model->add($userInfo,'tupoksi_perilaku');
                         break;
                 }
-                
-                
-                redirect('/member/dashboard');
-        
+        $output = array('massege' => 'sukses' );
+                $this->response($output);
     }
-    function edit($id,$tipe)
+    function edit_post()
     {
-                $tupoksi = $this->input->post('tupoksi');
-                $id_tupoksi = $this->input->post('id_tupoksi');
-                $nilai = $this->input->post('nilai');
+        header('Access-Control-Allow-Origin: *');
+        $tupoksi = $this->input->post('tupoksi');
+        $id_tupoksi = $this->input->post('id_tupoksi');
+        $nilai = $this->input->post('nilai');
+        $userId = $this->input->post('userId');
+        $name = $this->input->post('name');
+        $id= $this->input->post('id');
+        $tipe= $this->input->post('tipe');
                 switch ($tupoksi) {
                     case 'kuantitas':
                         if($tipe==$tupoksi){
@@ -171,9 +175,9 @@ class Dashboard extends REST_Controller
                                 'id_tupoksi'=>$id_tupoksi,
                                 'nilai'=>$nilai,
                                 'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
+                                'usr_id'=>$userId,
                                 'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
+                                'usr_insrt'=>$name
                             );
                             $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kuantitas');
                         }else{
@@ -181,9 +185,9 @@ class Dashboard extends REST_Controller
                                 'id_tupoksi'=>$id_tupoksi,
                                 'nilai'=>$nilai,
                                 'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
+                                'usr_id'=>$userId,
                                 'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
+                                'usr_insrt'=>$name
                             );
                             switch ($tipe) {
                                 case 'kuantitas':
@@ -277,8 +281,10 @@ class Dashboard extends REST_Controller
                 }
                 redirect('/member/dashboard');
     }
-    function oldEdit($id = NULL,$tipe = NULL)
+    function oldEdit_get($id = NULL,$tipe = NULL)
     {
+        header('Access-Control-Allow-Origin: *');
+
         switch ($tipe) {
             case 'kuantitas':
                     $data = $this->dashboard_model->getSelect($id,'tupoksi_kuantitas',$tipe);
