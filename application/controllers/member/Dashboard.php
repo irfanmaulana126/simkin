@@ -198,6 +198,17 @@ class Dashboard extends BaseController
                                 case 'perilaku':
                                     $table='tupoksi_perilaku';
                                     break;
+                                case 'kegiatan':
+                                    $table='tupoksi_kegiatan';
+                                    $userInfo = array(  
+                                        'id_tupoksi'=>$id_tupoksi,
+                                        'nilai'=>$nilai,
+                                        'aktif'=>'Y',
+                                        'usr_id'=>$this->session->userdata('userId'),
+                                        'created_at'=>date('Y-m-d H:i:s'),
+                                        'usr_insrt'=>$this->session->userdata ('name')
+                                    );
+                                    break;
                             }
                             $this->dashboard_model->deletefix($id,$table);
                             $result = $this->dashboard_model->add($userInfo,'tupoksi_kuantitas');
@@ -305,7 +316,7 @@ class Dashboard extends BaseController
                     case '\'kegiatan\'': $userInfo = array(  
                                 'aktif'=>'N'
                             );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_perilaku');
+                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kegiatan');
                         break;
                 }
 
