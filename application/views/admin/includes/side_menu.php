@@ -43,10 +43,9 @@
                   <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="<?php if($aktif_menu_sub == 'ku_dok'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Indikator_tindakan_kuantitas_dokter" ><i class="fa fa-circle-o"></i> Kuantitas Dokter</a></li>
-                <li class="<?php if($aktif_menu_sub == 'ku_peg'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Indikator_tindakan_kuantitas_pegawai" ><i class="fa fa-circle-o"></i> Kuantitas Pegawai</a></li>
-                <li class="<?php if($aktif_menu_sub == 'kua'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Indikator_tindakan_kualitas"><i class="fa fa-circle-o"></i> Kualitas</a></li>
-                <li class="<?php if($aktif_menu_sub == 'per'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Indikator_tindakan_prilaku"><i class="fa fa-circle-o"></i> Perilaku</a></li>
+                <li class="<?php if($aktif_menu_sub == 'indikator'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_indikator" ><i class="fa fa-circle-o"></i> Indikator</a></li>
+                <li class="<?php if($aktif_menu_sub == 'd_indikator'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_detail_indikator" ><i class="fa fa-circle-o"></i> Detail Indikator</a></li>
+                <li class="<?php if($aktif_menu_sub == 'tb'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_target_bobot"><i class="fa fa-circle-o"></i> Target & Bobot</a></li>
               </ul>
             </li>
             <li class="treeview">
