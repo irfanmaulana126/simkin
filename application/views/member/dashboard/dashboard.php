@@ -210,7 +210,7 @@ jQuery(document).ready(function(){
 			currentRow = $(this);
 	
 		var confirmation = confirm("Are you sure to delete this ?");
-		if(confirmation)
+		if(confirmation === true)
 		{
       // alert(tipes);
 			jQuery.ajax({
@@ -218,11 +218,9 @@ jQuery(document).ready(function(){
 			dataType : "JSON",
 			url : baseURL + "member/Dashboard/delete",
 			data : { id : userId,tipe:tipes },
-      success: function(data)
-        {
-          window.location='<?php echo base_url(); ?>member/Dashboard';
-        }, 
-			})
+			});
+      
+      location.reload(true);
 		}
 	});
 	
@@ -262,6 +260,19 @@ function edit(id,tipe)
         }
     });
 }
+$(document).ready(function() {
+  $('.input-div').hide();
+
+  $('[name="tupoksi"]').change(function() {
+    if ($('[name="tupoksi"]').val() === "kegiatan") {      
+      $('.select-div').hide();
+      $('.input-div').show();
+    } else {
+      $('.select-div').show();
+      $('.input-div').hide();
+    }
+  })
+});
 </script>
 <script>
 $(function(){
@@ -296,20 +307,33 @@ $(function(){
         <div class="form-group">
             <label >Pilih Tupoksi</label>
             <select name="tupoksi" class="form-control select2" id="tupoksi" style="width: 100%;" required>
-                <option>-Pilih Master Tupoksi-</option>
+                <option value="">-Pilih Master Tupoksi-</option>
                 <option value="kuantitas">Kuantitas</option>
                 <option value="kualitas">Kualitas</option>
                 <option value="perilaku">Perilaku</option>
+                <option value="kegiatan">Kegiatan</option>
             </select>
         </div>
-        <div class="form-group">
-            <label >Pilih Indikator</label>
-            <select name="id_tupoksi" class="form-control select2" id="id_tupoksi" style="width: 100%;" required>
-                <option value="">-Pilih Jenis Tupoksi-</option>
-                <?php foreach ($kegiatans as $key) {?>
-                <option value="<?= $key->id?>" class="<?= $key->jenis?>" ><?= $key->indikator." - ".$key->difinisi_ops?></option>
-                <?php }?>
-            </select>
+        <div class="input-div">
+          <div class="form-group">
+              <label >Indikator</label>
+              <input type="text" name="indikator" class="form-control" readonly required>
+          </div>
+          <div class="form-group">
+              <label >definisi</label>
+              <input type="text" name="definisi" class="form-control" readonly required>
+          </div>
+        </div>
+        <div class="select-div">
+          <div class="form-group">
+              <label >Pilih Indikator</label>
+              <select name="id_tupoksi" class="form-control select2" id="id_tupoksi" style="width: 100%;" required>
+                  <option value="">-Pilih Jenis Tupoksi-</option>
+                  <?php foreach ($kegiatans as $key) {?>
+                  <option value="<?= $key->id?>" class="<?= $key->jenis?>" ><?= $key->indikator." - ".$key->difinisi_ops?></option>
+                  <?php }?>
+              </select>
+          </div>
         </div>
         <div class="form-group">
             <label >Capaian</label>

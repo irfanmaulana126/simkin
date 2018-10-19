@@ -302,11 +302,13 @@ class Dashboard extends BaseController
                             );
                             $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_perilaku');
                         break;
-                    default:
-                redirect('/member/dashboard');
+                    case '\'kegiatan\'': $userInfo = array(  
+                                'aktif'=>'N'
+                            );
+                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_perilaku');
                         break;
                 }
-                redirect('/member/dashboard');
+
     }
     function oldEdit($id = NULL,$tipe = NULL)
     {
