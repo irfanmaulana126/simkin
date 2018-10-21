@@ -6,11 +6,11 @@ class tindakan_kuantitas_model_dokter extends CI_Model
     {
         $this->db->select('a.*,b.nama_unit,c.nama_jabatan,d.kategori_tindakan_nama,e.kategori_tindakan_header_nama,f.klinik_kategori_tindakan_header_instalasi_nama');
         $this->db->from('simkin.kuantitas_dokter as a');
-        $this->db->join('simkin.master_unit_kerja as b','a.id_pos=b.id');
-        $this->db->join('simkin.master_jabatan as c','b.id_jabatan=c.id');
-        $this->db->join('klinik.klinik_kategori_tindakan as d','a.id_tindakan=d.kategori_tindakan_id');
-        $this->db->join('klinik.klinik_kategori_tindakan_header as e','d.id_kategori_tindakan_header=e.kategori_tindakan_header_id');
-        $this->db->join('klinik.klinik_kategori_tindakan_header_instalasi as f',' e.id_kategori_tindakan_header_instalasi=f.klinik_kategori_tindakan_header_instalasi_id');
+        $this->db->join('simkin.master_unit_kerja as b','a.id_pos=b.id','left');
+        $this->db->join('simkin.master_jabatan as c','b.id_jabatan=c.id','left');
+        $this->db->join('klinik.klinik_kategori_tindakan as d','a.id_tindakan=d.kategori_tindakan_id','left');
+        $this->db->join('klinik.klinik_kategori_tindakan_header as e','d.id_kategori_tindakan_header=e.kategori_tindakan_header_id','left');
+        $this->db->join('klinik.klinik_kategori_tindakan_header_instalasi as f',' e.id_kategori_tindakan_header_instalasi=f.klinik_kategori_tindakan_header_instalasi_id','left');
         $this->db->where('a.aktif','Y');
         $query = $this->db->get();
         $indikator = $query->result();

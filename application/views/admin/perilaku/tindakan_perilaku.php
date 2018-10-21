@@ -2,13 +2,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Bobot dan Target Indikator
-        <small>Control panel</small>
+        <i class="fa fa-users"></i> Indikator Tindakan Perilaku Pegawai Management
       </h1>
     </section>
-    
     <section class="content">
-    <div class="row">
+        <div class="row">
             <div class="col-xs-12 text-right">
                 <div class="form-group">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambah</button>
@@ -19,46 +17,46 @@
             <div class="col-xs-12">
               <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Bobot & Target List</h3>
+                    <h3 class="box-title">Pegawai List</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive">
                   <table class="table table-hover" id="myTable">
                   <thead>
                     <tr>
                       <th>no</th>
-                      <th>Unit kerja</th>
-                      <th>indikator Tupoksi</th>
+                      <th>Jabatan</th>
+                      <th>Unit Kerja</th>
                       <th>Indikator</th>
-                      <th>Bobot</th>
                       <th>Target</th>
-                      <th>Aktif Tanggal</th>
+                      <th>Bobot</th>
+                      <th>Difinisi Opersional</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    // if(!empty($datas))
-                    // {
-                    //     $a=0;
-                    //     foreach($datas as $record)
-                    //     {
-                    //         ?>
+                    if(!empty($datas))
+                    {
+                        $a=0;
+                        foreach($datas as $record)
+                        {
+                            ?>
                     <tr>
-                      <td><?php //echo ++$a ?></td>
-                      <td><?php //echo $record->nama_jabatan ?></td>
-                      <td><?php //echo $record->nama_unit ?></td>
-                      <td><?php //echo $record->indikator ?></td>
-                      <td><?php //echo $record->indikator ?></td>
-                      <td><?php //echo $record->indikator ?></td>
-                      <td><?php //echo $record->indikator ?></td>
+                      <td><?php echo ++$a ?></td>
+                      <td><?php echo $record->nama_jabatan ?></td>
+                      <td><?php echo $record->nama_unit ?></td>
+                      <td><?php echo $record->indikator ?></td>
+                      <td><?php echo $record->target ?></td>
+                      <td><?php echo $record->bobot ?></td>
+                      <td><?php echo $record->difinisi_ops ?></td>
                       <td class="text-center">
-                          <a class="btn btn-sm btn-info" href="javascript:void(0)" title="Edit" onclick="edit('<?php//  $record->id;?>')"><i class="fa fa-pencil"></i></a>
-                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="<?php //echo $record->id; ?>"><i class="fa fa-trash"></i></a>
+                          <a class="btn btn-sm btn-info" href="javascript:void(0)" title="Edit" onclick="edit('<?=  $record->id;?>')"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="<?php echo $record->id; ?>"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <?php
-                        // }
-                    // }
+                        }
+                    }
                     ?>
                     </tbody>
                   </table>
@@ -76,7 +74,7 @@ jQuery(document).ready(function(){
 	
 	jQuery(document).on("click", ".deleteUser", function(){
 		var userId = $(this).data("id"),
-			hitURL = baseURL + "admin/Indikator_tindakan_kualitas/delete",
+			hitURL = baseURL + "admin/Indikator_tindakan_prilaku/delete",
 			currentRow = $(this);
 		
 		var confirmation = confirm("Are you sure to delete this user ?");
@@ -108,37 +106,9 @@ jQuery(document).ready(function(){
 $(document).ready( function () {
     $('#myTable').DataTable();
 } );
-// Validasi Form
-// $(document).ready(function(){
-	
-// 	var addUserForm = $("#form");
-	
-// 	var validator = addUserForm.validate({
-		
-// 		rules:{
-// 			fname :{ required : true },
-// 			email : { required : true, email : true, remote : { url : baseURL + "checkEmailExists", type :"post"} },
-// 			password : { required : true },
-// 			cpassword : {required : true, equalTo: "#password"},
-// 			mobile : { required : true, digits : true },
-// 			role : { required : true, selected : true}
-// 		},
-// 		messages:{
-// 			fname :{ required : "This field is required" },
-// 			email : { required : "This field is required", email : "Please enter valid email address", remote : "Email already taken" },
-// 			password : { required : "This field is required" },
-// 			cpassword : {required : "This field is required", equalTo: "Please enter same password" },
-// 			mobile : { required : "This field is required", digits : "Please enter numbers only" },
-// 			role : { required : "This field is required", selected : "Please select atleast one option" }			
-// 		}
-// 	});
-// });
-
 </script>
 <script>
-  $(function () {
-    $('.select2').select2();
-  })
+
 $(function(){
         $("#unit").chained("#jabatan");
 });
@@ -171,7 +141,7 @@ function edit(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo base_url()?>admin/Indikator_tindakan_kualitas/oldEdit/" + id,
+        url : "<?php echo base_url()?>admin/Indikator_tindakan_prilaku/oldEdit/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -185,9 +155,9 @@ function edit(id)
             $('[name="bobot"]').val(data.bobot);
             $('[name="difinisi"]').val(data.difinisi_ops);
             $('#form').removeAttr('action'); // show bootstrap modal when complete loaded
-            $('#form').attr('action', '<?php echo base_url();?>admin/Indikator_tindakan_kualitas/edit/'+id+''); // show bootstrap modal when complete loaded
+            $('#form').attr('action', '<?php echo base_url();?>admin/Indikator_tindakan_prilaku/edit/'+id+''); // show bootstrap modal when complete loaded
             $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Indikator Kualitas Pegawai'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit Indikator Perilaku Pegawai'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -196,23 +166,26 @@ function edit(id)
         }
     });
 }
+$(function () {
+    $('.select2').select2();
+  })
 </script>
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+<div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="exampleModalLabel">Tambah Indikator Kualitas Pegawai</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Indikator Perilaku Pegawai</h5>
       </div>
       <div class="modal-body">
-    <form action="<?php echo base_url();?>admin/Indikator_tindakan_kualitas/addNew" id="form" method="POST">
-        <div class="form-group">
+    <form action="<?php echo base_url();?>admin/Indikator_tindakan_prilaku/addNew" id="form" method="POST">
+    <div class="form-group">
             <label >Jabatan</label>
             <select name="jabatan" class="form-control select2" id="jabatan" style="width: 100%;" required>
-                <option value="">-Pilih Jabatan-</option>
+                <option>-Pilih Jabatan-</option>
                 <?php foreach ($JenisPosisiKategori as $key) {?>
                 <option value="<?= $key->id?>"><?= $key->nama_jabatan?></option>
                 <?php }?>
@@ -255,3 +228,4 @@ function edit(id)
     </div>
   </div>
 </div>
+

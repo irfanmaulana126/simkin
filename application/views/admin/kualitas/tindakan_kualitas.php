@@ -2,13 +2,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Bobot dan Target Indikator
-        <small>Control panel</small>
+        <i class="fa fa-users"></i> Indikator Tindakan Kualitas Pegawai Management
       </h1>
     </section>
-    
     <section class="content">
-    <div class="row">
+        <div class="row">
             <div class="col-xs-12 text-right">
                 <div class="form-group">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambah</button>
@@ -19,46 +17,46 @@
             <div class="col-xs-12">
               <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Bobot & Target List</h3>
+                    <h3 class="box-title">Pegawai List</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive">
                   <table class="table table-hover" id="myTable">
                   <thead>
                     <tr>
                       <th>no</th>
-                      <th>Unit kerja</th>
-                      <th>indikator Tupoksi</th>
+                      <th>Jenis master posisi</th>
+                      <th>Jenis Posisi</th>
                       <th>Indikator</th>
-                      <th>Bobot</th>
                       <th>Target</th>
-                      <th>Aktif Tanggal</th>
+                      <th>Bobot</th>
+                      <th>Difinisi Opersional</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    // if(!empty($datas))
-                    // {
-                    //     $a=0;
-                    //     foreach($datas as $record)
-                    //     {
-                    //         ?>
+                    if(!empty($datas))
+                    {
+                        $a=0;
+                        foreach($datas as $record)
+                        {
+                            ?>
                     <tr>
-                      <td><?php //echo ++$a ?></td>
-                      <td><?php //echo $record->nama_jabatan ?></td>
-                      <td><?php //echo $record->nama_unit ?></td>
-                      <td><?php //echo $record->indikator ?></td>
-                      <td><?php //echo $record->indikator ?></td>
-                      <td><?php //echo $record->indikator ?></td>
-                      <td><?php //echo $record->indikator ?></td>
+                      <td><?php echo ++$a ?></td>
+                      <td><?php echo $record->nama_jabatan ?></td>
+                      <td><?php echo $record->nama_unit ?></td>
+                      <td><?php echo $record->indikator ?></td>
+                      <td><?php echo $record->target ?></td>
+                      <td><?php echo $record->bobot ?></td>
+                      <td><?php echo $record->difinisi_ops ?></td>
                       <td class="text-center">
-                          <a class="btn btn-sm btn-info" href="javascript:void(0)" title="Edit" onclick="edit('<?php//  $record->id;?>')"><i class="fa fa-pencil"></i></a>
-                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="<?php //echo $record->id; ?>"><i class="fa fa-trash"></i></a>
+                          <a class="btn btn-sm btn-info" href="javascript:void(0)" title="Edit" onclick="edit('<?=  $record->id;?>')"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="<?php echo $record->id; ?>"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <?php
-                        // }
-                    // }
+                        }
+                    }
                     ?>
                     </tbody>
                   </table>
@@ -255,3 +253,4 @@ function edit(id)
     </div>
   </div>
 </div>
+
