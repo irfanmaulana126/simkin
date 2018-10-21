@@ -40,7 +40,7 @@ class Master_target_bobot extends BaseController
         $data['aktif_menu']='indi'; 
         $data['aktif_menu_sub']='tb'; 
         $jabatan = $this->input->post('jabatan');
-        $unit = $this->input->post('unit');        
+        $unit = $this->input->post('sunit');        
         $datas= array('a.id_jabatan' =>$jabatan ,'a.id_unit_kerja' => $unit );
         $data['datas'] = $this->indikator_penilaian->datasDetailIndikatorUnitKerja($datas);
         $this->loadViewsAdmin("admin/master_target_bobot/index", $data , NULL);
