@@ -21,6 +21,7 @@ class Master_target_bobot extends BaseController
         if($this->isAdmin()==false){
             redirect('member/dashborad');
         }  
+        $this->load->model('indikator_penilaian');
     }
     
     /**
@@ -30,6 +31,18 @@ class Master_target_bobot extends BaseController
     {
         $data['aktif_menu']='indi'; 
         $data['aktif_menu_sub']='tb'; 
+        $data['JenisPosisiKategori'] = $this->indikator_penilaian->datasMasterJabatan();
+        $data['JenisPosisi'] = $this->indikator_penilaian->datasMasterUnitKerja();
+        $this->loadViewsAdmin("admin/master_target_bobot/modal", $data , NULL);
+    }
+    public function cari_unit_kerja()
+    {
+        $data['aktif_menu']='indi'; 
+        $data['aktif_menu_sub']='tb'; 
+        $jabatan = $this->input->post('jabatan');
+        $unit = $this->input->post('unit');        
+        $datas= array('a.id_jabatan' =>$jabatan ,'a.id_unit_kerja' => $unit );
+        $data['datas'] = $this->indikator_penilaian->datasDetailIndikatorUnitKerja($datas);
         $this->loadViewsAdmin("admin/master_target_bobot/index", $data , NULL);
     }
     
