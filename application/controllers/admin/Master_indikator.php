@@ -129,7 +129,7 @@ class Master_indikator extends BaseController
     function pageNotFound()
     {
         $data['aktif_menu']=''; 
-        $data['aktif_menu_sub']='s';         
+        $data['aktif_menu_sub']='';         
         $this->loadViewsAdmin("404", NULL, NULL);
     }
 }
