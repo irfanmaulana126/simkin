@@ -97,8 +97,8 @@ class Master_indikator extends BaseController
                 'aktif'=>'Y', 
                 'indikator'=>$indikator, 
                 'difinisi'=>$difinisi, 
-                'created_at'=>date('Y-m-d H:i:s'),
-                'usr_insrt'=>$this->session->userdata ('name')
+                'updated_at'=>date('Y-m-d H:i:s'),
+                'usr_edit'=>$this->session->userdata ('name')
                     );
                 $result = $this->indikator_penilaian->edit($datas, $id,$table);
                 
