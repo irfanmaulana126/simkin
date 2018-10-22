@@ -111,7 +111,50 @@ class Master_indikator extends BaseController
                     $this->session->set_flashdata('error', 'User updation failed');
                 }
                 
-                redirect('/admin/Indikator_tindakan_kualitas');
+                redirect('/admin/Master_indikator');
+    }
+    function detail($id)
+    {
+        $data['aktif_menu']='indi'; 
+        $data['aktif_menu_sub']='indikator'; 
+        $data['datas'] = $this->indikator_penilaian->datasTargetBobot($id);
+        $data['id'] = $id;
+        $this->loadViewsAdmin("admin/master_indikator/detail", $data , NULL);
+    }
+    function TargetBobot()
+    {
+        $table = 'target_bobot';
+        $id = $this->input->post('id');
+        $tgl_awal = $this->input->post('tgl_awal');
+        $tgl_akhir = $this->input->post('tgl_akhir');
+        $bobot = $this->input->post('bobot');
+        $target = $this->input->post('target');
+            $datas = array(  
+                'id_m_indikator'=>$id, 
+                'tgl_awal'=>$tgl_awal,
+                'tgl_akhir'=>$tgl_akhir,
+                'aktif'=>'Y', 
+                'bobot'=>$bobot, 
+                'target'=>$target, 
+                'created_at'=>date('Y-m-d H:i:s'),
+                'usr_create'=>$this->session->userdata ('name')
+                    );
+                $result = $this->indikator_penilaian->add($datas,$table);
+                
+                if($result == true)
+                {
+                    $this->session->set_flashdata('success', 'Target create successfully');
+                }
+                else
+                {
+                    $this->session->set_flashdata('error', 'User updation failed');
+                }
+                if(empty($this->input->post('detail'))){
+                    print_r('index');die();
+                    redirect('/admin/Master_indikator');
+                }else{
+                    redirect('/admin/Master_indikator/detail/'.$id.'');
+                }
     }
 
 
@@ -119,6 +162,17 @@ class Master_indikator extends BaseController
     {
             $id = $this->input->post('id');
             $table = 'master_indikator';
+            $data = array('aktif'=>'N','usr_edit'=>$this->session->userdata('name'), 'updated_at'=>date('Y-m-d H:i:s'));
+            
+            $result = $this->indikator_penilaian->delete($data, $id, $table);
+            
+            if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }
+            else { echo(json_encode(array('status'=>FALSE))); }
+    }
+    function delete_target()
+    {
+            $id = $this->input->post('id');
+            $table = 'target_bobot';
             $data = array('aktif'=>'N','usr_edit'=>$this->session->userdata('name'), 'updated_at'=>date('Y-m-d H:i:s'));
             
             $result = $this->indikator_penilaian->delete($data, $id, $table);

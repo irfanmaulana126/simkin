@@ -35,10 +35,10 @@ class Tupoksi extends BaseController
             $dates = $date;
         }
         // print_r($dates);die();
-        $data['Kuantitas']=$this->tupoksi_model->datasTupoksiKuantitasPegawai($dates); 
-        $data['Kualitas']=$this->tupoksi_model->datasTupoksiKualitas($dates); 
-        $data['Perilaku']=$this->tupoksi_model->datasTupoksiPerilaku($dates); 
-        $data['dates']=$dates;
+        // $data['Kuantitas']=$this->tupoksi_model->datasTupoksiKuantitasPegawai($dates); 
+        // $data['Kualitas']=$this->tupoksi_model->datasTupoksiKualitas($dates); 
+        // $data['Perilaku']=$this->tupoksi_model->datasTupoksiPerilaku($dates); 
+        // $data['dates']=$dates;
         $this->loadViewsMember("member/tupoksi/indexs", $data , NULL);
         
     }

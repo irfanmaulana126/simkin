@@ -9,7 +9,7 @@ class Pegawai extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('pegawai_model','tindakan_kuantitas_model_pegawai'));
+        $this->load->model(array('pegawai_model','indikator_penilaian'));
         $this->isLoggedIn();   
         if($this->isAdmin()==false){
             redirect('member/dashborad');
@@ -22,8 +22,8 @@ class Pegawai extends BaseController
         $data['aktif_menu_sub']=''; 
         $data['datas'] = $this->pegawai_model->dataspegawais();        
         $data['pegawai'] = $this->pegawai_model->dataspegawai();        
-        $data['JenisPosisiKategori'] = $this->tindakan_kuantitas_model_pegawai->datasMasterJabatan();
-        $data['JenisPosisi'] = $this->tindakan_kuantitas_model_pegawai->datasMasterUnitKerja();
+        $data['JenisPosisiKategori'] = $this->indikator_penilaian->datasMasterJabatan();
+        $data['JenisPosisi'] = $this->indikator_penilaian->datasMasterUnitKerja();
         $this->loadViewsAdmin("admin/data_pegawai/pegawais", $data, NULL);
     }
 

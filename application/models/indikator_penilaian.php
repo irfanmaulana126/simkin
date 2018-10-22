@@ -66,6 +66,23 @@ class indikator_penilaian extends CI_Model
             return array();
         }
     }
+    public function datasDetailIndikatorFolio()
+    {
+        $this->db->select('*');
+        $this->db->from('simkin.detail_indikator_folio as a');
+        $this->db->join('simkin.master_unit_kerja as b','a.id_unit_kerja=b.id');
+        $this->db->join('simkin.master_jabatan as c','b.id_jabatan=c.id');
+        $this->db->join('simkin.master_indikator as d','a.id_master_indikator=d.id');
+        $this->db->join('global.global_auth_poli as e','e.poli_id=a.id_folio');
+        $this->db->where('a.aktif','Y');
+        $query = $this->db->get();
+        $Detailindikator = $query->result();
+        if(!empty($Detailindikator)){
+            return $Detailindikator;
+         } else {
+            return array();
+        }
+    }
     public function datasDetailIndikator()
     {
         $this->db->select('a.*,b.nama_unit,c.nama_jabatan,
@@ -81,6 +98,23 @@ class indikator_penilaian extends CI_Model
         $this->db->join('klinik.klinik_kategori_tindakan as f','a.id_tindakan=f.kategori_tindakan_id');
         $this->db->join('simkin.master_indikator as g','a.id_master_indikator=g.id');
         $this->db->where('a.aktif','Y');
+        $query = $this->db->get();
+        $Detailindikator = $query->result();
+        if(!empty($Detailindikator)){
+            return $Detailindikator;
+         } else {
+            return array();
+        }
+    }
+    public function datasTargetBobot($id)
+    {
+        $this->db->select('*');
+        $this->db->from('simkin.master_indikator as a');
+        $this->db->join('simkin.master_unit_kerja as b','a.id_unit_kerja=b.id');
+        $this->db->join('simkin.master_jabatan as c','b.id_jabatan=c.id');
+        $this->db->join('simkin.target_bobot as d','d.id_m_indikator=a.id');
+        $this->db->where('d.aktif','Y');
+        $this->db->where('d.id_m_indikator',$id);
         $query = $this->db->get();
         $Detailindikator = $query->result();
         if(!empty($Detailindikator)){
@@ -188,6 +222,24 @@ class indikator_penilaian extends CI_Model
         $query = $this->db->get();
         
         return $query->row();
+    }
+    function getSelectAll($table)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where('aktif', 'Y');
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    function getSelectAllPoli()
+    {
+        $this->db->select('*');
+        $this->db->from('global.global_auth_poli');
+        $this->db->where('poli_flag', 'y');
+        $query = $this->db->get();
+        
+        return $query->result();
     }
 }
 

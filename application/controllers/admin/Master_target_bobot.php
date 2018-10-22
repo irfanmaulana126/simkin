@@ -42,7 +42,10 @@ class Master_target_bobot extends BaseController
         $jabatan = $this->input->post('jabatan');
         $unit = $this->input->post('sunit');        
         $datas= array('a.id_jabatan' =>$jabatan ,'a.id_unit_kerja' => $unit );
-        $data['datas'] = $this->indikator_penilaian->datasDetailIndikatorUnitKerja($datas);
+        $data['datas'] = $this->indikator_penilaian->datasDetailIndikatorUnitKerja($datas);        
+        $data['JenisPosisiKategori'] = $this->indikator_penilaian->datasMasterJabatan();
+        $data['JenisPosisi'] = $this->indikator_penilaian->datasMasterUnitKerja();
+        $data['Indikator'] = $this->indikator_penilaian->getSelectAll('simkin.master_indikator');
         $this->loadViewsAdmin("admin/master_target_bobot/index", $data , NULL);
     }
     

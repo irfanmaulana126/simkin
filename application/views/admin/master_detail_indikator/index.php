@@ -8,6 +8,14 @@
     </section>
     
     <section class="content">
+    <?php if ($this->session->flashdata('success')) { ?>
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert">&times;</a> <?= $this->session->flashdata('success') ?> </div>
+    <?php } ?>
+    <?php if ($this->session->flashdata('error')) { ?>
+    <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert">&times;</a> <?= $this->session->flashdata('error') ?> </div>
+    <?php } ?>
     <div class="row">
             <div class="col-xs-12 text-right">
                 <div class="form-group">
@@ -107,7 +115,7 @@ jQuery(document).ready(function(){
             $('#header').val('');
             $('#tindakan').val('');
             $('#form').removeAttr('action'); // show bootstrap modal when complete loaded
-            $('#form').attr('action', 'action="<?php echo base_url();?>admin/Master_indikator/addNew"'); // show bootstrap modal when complete loaded
+            $('#form').attr('action', '<?php echo base_url();?>admin/Master_detail_indikator/addNew'); // show bootstrap modal when complete loaded
             $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Create Indikator Kualitas Pegawai'); // Set title to Bootstrap modal title
 
@@ -174,7 +182,7 @@ function edit(id)
             $('#header').val(data.id_header).change();
             $('#tindakan').val(data.id_tindakan).change();
             $('#form').removeAttr('action'); // show bootstrap modal when complete loaded
-            $('#form').attr('action', '<?php echo base_url();?>admin/Indikator_tindakan_kualitas/edit/'+id+''); // show bootstrap modal when complete loaded
+            $('#form').attr('action', '<?php echo base_url();?>admin/Master_detail_indikator/edit/'+id+''); // show bootstrap modal when complete loaded
             $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Indikator Kualitas Pegawai'); // Set title to Bootstrap modal title
 

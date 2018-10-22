@@ -44,8 +44,8 @@
               </a>
               <ul class="treeview-menu">
                 <li class="<?php if($aktif_menu_sub == 'indikator'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_indikator" ><i class="fa fa-circle-o"></i> Indikator</a></li>
-                <li class="<?php if($aktif_menu_sub == 'd_indikator'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_detail_indikator" ><i class="fa fa-circle-o"></i> Detail Indikator</a></li>
-                <li class="<?php if($aktif_menu_sub == 'tb'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_target_bobot"><i class="fa fa-circle-o"></i> Target & Bobot</a></li>
+                <li class="<?php if($aktif_menu_sub == 'd_indikator'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_detail_indikator" ><i class="fa fa-circle-o"></i> Detail Indikator Tindakan</a></li>
+                <li class="<?php if($aktif_menu_sub == 'd_indikator_folio'){ echo 'active'; }else{ echo '';} ?>"><a href="<?php echo base_url(); ?>admin/Master_detail_indikator_folio"><i class="fa fa-circle-o"></i> Detail Indikator Folio</a></li>
               </ul>
             </li>
             <li class="treeview">

@@ -44,7 +44,8 @@
           padding:24px;
           border:1px solid #f9f9f9;
           border-radius: 5px;
-          margin-bottom: 24px;
+          margin-bottom: 24px;   
+          margin-left: 50px;
           box-shadow: 10px 10px 5px #eeeeee;
         }
         </style>

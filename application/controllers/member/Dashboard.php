@@ -32,7 +32,7 @@ class Dashboard extends BaseController
     {
         $data['aktif_menu']='dash'; 
         $data['aktif_menu_sub']=''; 
-        $data['kegiatans']= $this->dashboard_model->datasKegiatan($this->session->userdata('unit'));
+        // $data['kegiatans']= $this->dashboard_model->datasKegiatan($this->session->userdata('unit'));
         $this->loadViewsMember("member/dashboard/dashboard", $data , NULL);
     }
     function fetch()

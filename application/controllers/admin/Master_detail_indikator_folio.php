@@ -9,7 +9,7 @@ require APPPATH . '/libraries/BaseController.php';
  * @version : 1.1
  * @since : 15 November 2016
  */
-class Master_detail_indikator extends BaseController
+class master_detail_indikator_folio extends BaseController
 {
     /**
      * This is default constructor of the class
@@ -30,35 +30,30 @@ class Master_detail_indikator extends BaseController
     public function index()
     {
         $data['aktif_menu']='indi'; 
-        $data['aktif_menu_sub']='d_indikator'; 
-        $data['datas'] = $this->indikator_penilaian->datasDetailIndikator();
+        $data['aktif_menu_sub']='d_indikator_folio'; 
+        $data['datas'] = $this->indikator_penilaian->datasDetailIndikatorFolio();
         $data['Indikator'] = $this->indikator_penilaian->datasMasterIndikator();
         $data['JenisPosisiKategori'] = $this->indikator_penilaian->datasMasterJabatan();
         $data['JenisPosisi'] = $this->indikator_penilaian->datasMasterUnitKerja();
         $data['Indikator_tupoksi'] = $this->indikator_penilaian->datasMasterIndikatorTupoksi();
-        $data['KategoriHeaderInstalasi'] = $this->indikator_penilaian->datasKategoriHeaderInstalasi();
-        $data['KategoriTindakanHeader'] = $this->indikator_penilaian->datasKategoriTindakanHeader();
-        $data['KategoriTindakan'] = $this->indikator_penilaian->datasKategoriTindakan();
-        $this->loadViewsAdmin("admin/master_detail_indikator/index", $data , NULL);
+        $data['folio'] = $this->indikator_penilaian->getSelectAllPoli();
+        $this->loadViewsAdmin("admin/master_detail_indikator_folio/index", $data , NULL);
     }
     
     function addNew()
     {
-        $table = 'detail_indikator';
+        $table = 'detail_indikator_folio';
                 $jabatan = $this->input->post('jabatan');
                 $unit = $this->input->post('unit');
                 $id_master_indikator = $this->input->post('indikator');
-                $id_header_instalasi = $this->input->post('instalasi');
-                $id_header = $this->input->post('header');
-                $id_tindakan = $this->input->post('tindakan');
+                $poli = $this->input->post('poli');
+                
                 
                 $userInfo = array(  'id_jabatan'=>$jabatan, 
                                     'id_unit_kerja'=>$unit,
                                     'aktif'=>'Y', 
                                     'id_master_indikator'=>$id_master_indikator,
-                                    'id_header_instalasi'=>$id_header_instalasi,
-                                    'id_header'=>$id_header,
-                                    'id_tindakan'=>$id_tindakan,
+                                    'id_folio'=>$poli,
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'usr_insrt'=>$this->session->userdata ('name')
                                 );
@@ -73,7 +68,7 @@ class Master_detail_indikator extends BaseController
                     $this->session->set_flashdata('error', 'indikator creation failed');
                 }
                 
-                redirect('/admin/Master_detail_indikator');
+                redirect('/admin/master_detail_indikator_folio');
         
     }
 
@@ -88,20 +83,17 @@ class Master_detail_indikator extends BaseController
     
     function edit($id)
     {
-        $table = 'detail_indikator';
+        $table = 'detail_indikator_folio';
         $jabatan = $this->input->post('jabatan');
         $unit = $this->input->post('unit');
         $id_master_indikator = $this->input->post('indikator');
-        $id_header_instalasi = $this->input->post('instalasi');
-        $id_header = $this->input->post('header');
-        $id_tindakan = $this->input->post('tindakan');
+        $poli = $this->input->post('poli');
+        
         $datas = array(  'id_jabatan'=>$jabatan, 
                 'id_unit_kerja'=>$unit,
                 'aktif'=>'Y', 
                 'id_master_indikator'=>$id_master_indikator,
-                'id_header_instalasi'=>$id_header_instalasi,
-                'id_header'=>$id_header,
-                'id_tindakan'=>$id_tindakan,
+                'id_folio'=>$poli,
                 'updated_at'=>date('Y-m-d H:i:s'),
                 'usr_edit'=>$this->session->userdata ('name')
             );
@@ -116,14 +108,14 @@ class Master_detail_indikator extends BaseController
                     $this->session->set_flashdata('error', 'User updation failed');
                 }
                 
-                redirect('/admin/Master_detail_indikator');
+                redirect('/admin/master_detail_indikator_folio');
     }
 
 
     function delete()
     {
             $id = $this->input->post('id');
-            $table = 'detail_indikator';
+            $table = 'detail_indikator_folio';
             $data = array('aktif'=>'N','usr_edit'=>$this->session->userdata('name'), 'updated_at'=>date('Y-m-d H:i:s'));
             
             $result = $this->indikator_penilaian->delete($data, $id, $table);

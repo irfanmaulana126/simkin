@@ -141,12 +141,13 @@ $(document).ready( function () {
   })
 $(function(){
         $("#unit").chained("#jabatan");
+        $("#indikator").chained("#unit");
 });
 $( "#unit" ).change(function() {
 		$("#nama_posisi").val($('select[name="unit"] :selected').attr('ids'));
 	});
 $(document).ready(function(){
-    $('#unit').change(function(){
+    $('#indikator').change(function(){
         var rBtnVal = $(this).val();
         if(rBtnVal == ''){
             $("#inputs").prop('readonly', true); 
@@ -229,7 +230,12 @@ function edit(id)
         </div>
         <div class="form-group">
             <label >Inidkator</label>
-            <input type="text" name="indikator" id="inputs3" class="form-control" readonly required>
+            <select name="indikator" class="form-control select2" id="indikator" style="width: 100%;" required>
+                <option value="">-Pilih-</option>
+                <?php foreach ($Indikator as $key) {?>
+                <option value="<?= $key->id?>" class="<?= $key->id_unit_kerja?>"><?= $key->indikator?></option>
+                <?php }?>
+            </select>
         </div>
         <div class="form-group">
             <label >Target</label>
@@ -239,10 +245,6 @@ function edit(id)
         <div class="form-group">
             <label >bobot</label>
             <input type="number" min="1" name="bobot" id="inputs2" class="form-control" readonly required>
-        </div>
-        <div class="form-group">
-            <label >Difinisi Oprasional</label>
-            <input type="text" name="difinisi" id="inputs4" class="form-control" readonly>
         </div>
         
         </div>
