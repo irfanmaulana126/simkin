@@ -265,7 +265,7 @@ $(document).ready(function() {
   $('.input-div').hide();
 
   $('[name="tupoksi"]').change(function() {
-    if ($('[name="tupoksi"]').val() === "kegiatan") {      
+    if ($('[name="tupoksi"]').val() === "4") {      
       $('.select-div').hide();
       $('.input-div').show();
     } else {
@@ -283,12 +283,12 @@ $(function(){
     $('.select2').select2();
   });
   $(document).ready(function(){
-    $('#id_tupoksi').change(function(){
-        var rBtnVal = $(this).val();
-        if(rBtnVal == ''){
+    $('#id_tupoksi, #tupoksi').change(function(){
+        var rBtnVal1 = $('#id_tupoksi').val();
+        var rBtnVal2 = $('#tupoksi').val();
+        if(rBtnVal1 == ''){
             $("#nilai").prop('readonly', true); 
-        }
-        else{ 
+        }else{ 
             $("#nilai").prop('readonly', false);
         }
     });
@@ -309,20 +309,20 @@ $(function(){
             <label >Pilih Tupoksi</label>
             <select name="tupoksi" class="form-control select2" id="tupoksi" style="width: 100%;" required>
                 <option value="">-Pilih Master Tupoksi-</option>
-                <option value="kuantitas">Kuantitas</option>
-                <option value="kualitas">Kualitas</option>
-                <option value="perilaku">Perilaku</option>
-                <option value="kegiatan">Kegiatan</option>
+                <option value="1">Kuantitas</option>
+                <option value="2">Kualitas</option>
+                <option value="3">Perilaku</option>
+                <option value="4">Kegiatan</option>
             </select>
         </div>
         <div class="input-div">
           <div class="form-group">
               <label >Indikator</label>
-              <input type="text" name="indikator" class="form-control" readonly required>
+              <input type="text" name="indikator" class="form-control">
           </div>
           <div class="form-group">
               <label >definisi</label>
-              <input type="text" name="definisi" class="form-control" readonly required>
+              <input type="text" name="definisi" class="form-control">
           </div>
         </div>
         <div class="select-div">
@@ -330,15 +330,15 @@ $(function(){
               <label >Pilih Indikator</label>
               <select name="id_tupoksi" class="form-control select2" id="id_tupoksi" style="width: 100%;" required>
                   <option value="">-Pilih Jenis Tupoksi-</option>
-                  <?php foreach ($kegiatans as $key) {?>
-                  <option value="<?= $key->id?>" class="<?= $key->jenis?>" ><?= $key->indikator." - ".$key->difinisi_ops?></option>
+                  <?php foreach ($Indikator as $key) {?>
+                  <option value="<?= $key->id?>" class="<?= $key->indikator_tupoksi?>" ><?= $key->indikator?></option>
                   <?php }?>
               </select>
           </div>
-        </div>
-        <div class="form-group">
-            <label >Capaian</label>
-            <input type="number" min='-1' name="nilai" id="nilai" class="form-control" readonly required>
+          <div class="form-group">
+              <label >Capaian</label>
+              <input type="number" min='-1' name="nilai" id="nilai" class="form-control" readonly required>
+          </div>
         </div>
         
         </div>

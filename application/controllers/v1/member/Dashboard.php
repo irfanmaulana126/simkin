@@ -32,8 +32,7 @@ class Dashboard extends BaseController
     {
         $data['aktif_menu']='dash'; 
         $data['aktif_menu_sub']=''; 
-        $data['Indikator']= $this->dashboard_model->Indikator($this->session->userdata('unit'));
-        // print_r();die();
+        // $data['kegiatans']= $this->dashboard_model->datasKegiatan($this->session->userdata('unit'));
         $this->loadViewsMember("member/dashboard/dashboard", $data , NULL);
     }
     function fetch()
@@ -56,38 +55,24 @@ class Dashboard extends BaseController
                 </li></ul>';      
 			foreach($datas as $row)
 			{
-                switch ($row->indikator_tupoksi) {
-                    case '1':
-                        $indikator_tupoksi='Kuantitas';
-                        break;
-                    case '2':
-                    $indikator_tupoksi='Kualitas';
-                        break;
-                    case '3':
-                    $indikator_tupoksi='Perilaku';
-                        break;
-                    case '4':
-                    $indikator_tupoksi='Tambahan';
-                        break;
-                }
 				$output .= '<ul class="timeline timeline-inverse" >
 				<li>
                       <i class="fa fa-comments bg-aqua"></i>
                       <div class="timeline-item bg-gray">
                         <span class="time"><i class="fa fa-clock-o"></i>'. date('H:i:s', strtotime($row->created_at)).'</span>
-                        <h3 class="timeline-header">Tupoksi <a href="#">'. ucfirst($indikator_tupoksi) .'</a></h3>
+                        <h3 class="timeline-header">Tupoksi <a href="#">'. ucfirst($row->jenis) .'</a></h3>
                         <div class="timeline-body">
                           <p class="info-box-text">Tupoksi :'. ucfirst($row->indikator).'</p>
-                          <p class="info-box-text">Definisi Tupoksi :'. ucfirst($row->difinisi).'</p>
+                          <p class="info-box-text">Definisi Tupoksi :'. ucfirst($row->difinisi_ops).'</p>
                           <p class="info-box-text">Nilai :'. $row->nilai.'</p>
                          
                         </div>
                         <div class="timeline-footer">';
                         if(date('Y-m-d', strtotime($row->created_at))==date('Y-m-d')){
-                            $output .= '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.',\''.$indikator_tupoksi.'\')"><i class="fa fa-pencil"></i></a>';
+                            $output .= '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.',\''.$row->jenis.'\')"><i class="fa fa-pencil"></i></a>';
                         }
                         $output .='&nbsp;
-                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="'.$row->id.'" data-tipe="\''.$indikator_tupoksi.'\'"><i class="fa fa-trash"></i></a>
+                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="'.$row->id.'" data-tipe="\''.$row->jenis.'\'"><i class="fa fa-trash"></i></a>
                         </div>
                       </div>
                     </li>
@@ -133,35 +118,40 @@ class Dashboard extends BaseController
     {
                 $tupoksi = $this->input->post('tupoksi');
                 $id_tupoksi = $this->input->post('id_tupoksi');
-                $indikator = $this->input->post('indikator');
-                $definisi = $this->input->post('definisi');
                 $nilai = $this->input->post('nilai');
-                switch (true) {
-                    case ($tupoksi == '1' || $tupoksi == '2' || $tupoksi == '3' ):
-                        $date = $this->dashboard_model->getBoborTarget(date('Y-m-d'));
+                switch ($tupoksi) {
+                    case 'kuantitas':
                             $userInfo = array(  
+                                'id_tupoksi'=>$id_tupoksi,
                                 'nilai'=>$nilai,
-                                'id_master_indikator'=>$id_tupoksi,
                                 'aktif'=>'Y',
-                                'target'=>$date->target,
-                                'bobot'=>$date->bobot,
                                 'usr_id'=>$this->session->userdata('userId'),
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'usr_insrt'=>$this->session->userdata ('name')
                             );
-                            $result = $this->dashboard_model->add($userInfo,'input_kegitan_tupoksi');
+                            $result = $this->dashboard_model->add($userInfo,'tupoksi_kuantitas');
                         break;
-                    case ($tupoksi=='4'):
-                            $inputkegiatan = array(  
-                                'indikator'=>$indikator,
-                                'difinisi'=>$definisi,
+                    case 'kualitas':
+                        $userInfo = array(   
+                            'id_tupoksi'=>$id_tupoksi,
+                            'nilai'=>$nilai,
+                            'aktif'=>'Y',
+                            'usr_id'=>$this->session->userdata('userId'),
+                            'created_at'=>date('Y-m-d H:i:s'),
+                            'usr_insrt'=>$this->session->userdata ('name')
+                        );
+                        $result = $this->dashboard_model->add($userInfo,'tupoksi_kualitas');
+                        break;
+                    case 'perilaku':
+                            $userInfo = array(  
+                                'id_tupoksi'=>$id_tupoksi,
+                                'nilai'=>$nilai,
                                 'aktif'=>'Y',
+                                'usr_id'=>$this->session->userdata('userId'),
                                 'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name'),
-                                'jns_input'=>'3',
-                                'indikator_tupoksi'=>'4'
+                                'usr_insrt'=>$this->session->userdata ('name')
                             );
-                            $this->dashboard_model->addTupoksiKegitan($inputkegiatan,'master_indikator');
+                            $result = $this->dashboard_model->add($userInfo,'tupoksi_perilaku');
                         break;
                     default:
                 redirect('/member/dashboard');

@@ -48,6 +48,7 @@ class Master_indikator extends BaseController
                 $indikator_tupoksi = $this->input->post('indikator_tupoksi');
                 $indikator = $this->input->post('indikator');
                 $difinisi = $this->input->post('difinisi');
+                $input = $this->input->post('input');
                 
                 $userInfo = array(  'id_jabatan'=>$jabatan, 
                                     'id_unit_kerja'=>$unit,
@@ -55,6 +56,7 @@ class Master_indikator extends BaseController
                                     'aktif'=>'Y', 
                                     'indikator'=>$indikator, 
                                     'difinisi'=>$difinisi, 
+                                    'jns_input'=>$input, 
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'usr_insrt'=>$this->session->userdata ('name')
                                 );
@@ -90,6 +92,7 @@ class Master_indikator extends BaseController
         $indikator_tupoksi = $this->input->post('indikator_tupoksi');
         $indikator = $this->input->post('indikator');
         $difinisi = $this->input->post('difinisi');
+        $input = $this->input->post('input');
             $datas = array(  
                 'id_jabatan'=>$jabatan, 
                 'id_unit_kerja'=>$unit,
@@ -97,6 +100,7 @@ class Master_indikator extends BaseController
                 'aktif'=>'Y', 
                 'indikator'=>$indikator, 
                 'difinisi'=>$difinisi, 
+                'jns_input'=>$input, 
                 'updated_at'=>date('Y-m-d H:i:s'),
                 'usr_edit'=>$this->session->userdata ('name')
                     );

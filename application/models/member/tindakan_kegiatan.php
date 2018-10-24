@@ -30,12 +30,7 @@ class tindakan_kegiatan extends CI_Model
     public function datasTindakan()
     {
         $query =$this->db->query("
-        select fol_nama from klinik.klinik_folio_pelaksana a 
-             INNER JOIN klinik.klinik_folio b on b.fol_id = a.id_fol 
-						 INNER JOIN klinik.klinik_biaya as e on b.id_biaya=e.biaya_id
-						 INNER JOIN klinik.klinik_kategori_tindakan as f on e.biaya_kategori=f.kategori_tindakan_id 
-						 INNER JOIN global.global_customer_user as i on b.id_cust_usr=i.cust_usr_id
-						 where a.id_usr='".$this->session->userdata('userId')."' group by fol_nama order by fol_nama desc
+        select * from master_indikator where  jns_input in ('1','0') and id_unit_kerja='".$this->session->userdata('unit')." '
         ");
         $indikator = $query->result();
         if(!empty($indikator)){

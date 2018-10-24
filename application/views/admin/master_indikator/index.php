@@ -134,11 +134,13 @@ $(document).ready(function(){
         if(rBtnVal == ''){
             $("#inputs3").prop('readonly', true); 
             $("#inputs4").prop('readonly', true); 
+            $("#input").prop('disabled', 'disabled'); 
             $("#indikator_tupoksi").prop('disabled', 'disabled'); 
         }
         else{ 
             $("#inputs3").prop('readonly', false);
             $("#inputs4").prop('readonly', false);
+            $("#input").removeAttr('disabled');
             $("#indikator_tupoksi").removeAttr('disabled');
         }
     });
@@ -186,6 +188,7 @@ function edit(id)
             $('#jabatan').val(data.id_jabatan).change();
             $('#unit').val(data.id_unit_kerja).change();
             $('#indikator_tupoksi').val(data.indikator_tupoksi).change();
+            $('#input').val(data.jns_input).change();
             $('[name="indikator"]').val(data.indikator);
             $('[name="difinisi"]').val(data.difinisi);
             $('#form').removeAttr('action'); // show bootstrap modal when complete loaded
@@ -246,6 +249,15 @@ function targets(id)
                 <?php foreach ($Indikator as $key) {?>
                 <option value="<?= $key->id?>"><?= $key->nama?></option>
                 <?php }?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Jenis Input</label>
+            <select name="input" class="form-control select2" id="input" style="width: 100%;" disabled required>
+                <option value="">-Pilih jenis input-</option>
+                <option value="2">Input Manual User</option>
+                <option value="1">Otomatis Database Tindakan</option>
+                <option value="0">Otomatis Database Poli</option>
             </select>
         </div>
         <div class="form-group">

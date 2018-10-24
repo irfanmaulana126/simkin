@@ -4,7 +4,7 @@
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Irfan Maulana');
-$pdf->SetTitle('Laporan Penilaian Kinerja');
+$pdf->SetTitle('Laporan Pesumallan Kinerja');
 // ---------------------------------------------------------
 $pdf->SetFont('helvetica','', 9);
 $pdf->SetDisplayMode('fullpage', 'SinglePage', 'UseNone');
@@ -83,7 +83,7 @@ $str='
         </tr>                
         <tr align="center" bgcolor="#d3d3d3">
             <td width="30px"><b>No</b></td>
-            <td width="124px"><b>Indikator Yang dinilai</b></td>
+            <td width="124px"><b>Indikator Yang disumall</b></td>
             <td width="184px"><b>Difinisi Oprasional</b></td>
             <td width="50px"><b>Target</b></td>
             <td width="50px"><b>Capaian</b></td>
@@ -94,22 +94,24 @@ $str='
     if(!empty($Kuantitas))
     {
         $a=0;$b=0;$c=0;$d=0;$e=0;
-        foreach($Kuantitas as $record)
+        foreach($Kuantitas as $key=>$datas)
         {
+            foreach ($datas as $record) {
+              if($record->indikator_tupoksi=='1'){
     $str.='<tr>
         <td width="30px">'.++$a.'</td>
         <td width="124px">'.$record->indikator.'</td>
-        <td  width="184px">'.$record->difinisi_ops.'</td>
+        <td  width="184px">'.$record->difinisi.'</td>
         <td width="50px" align="center">'.$record->target.'</td>
-        <td width="50px" align="center">'.$record->nilai.'</td>
+        <td width="50px" align="center">'.$record->sumall.'</td>
         <td width="50px" align="center">'.$record->bobot.'</td>
-        <td width="50px" align="center">'.number_format($record->tot,2).'</td>
+        <td width="50px" align="center">'.number_format($record->total,2).'</td>
     </tr>';
     $b+=$record->target;
-    $c+=$record->nilai;
+    $c+=$record->sumall;
     $d+=$record->bobot;
-    $e+=number_format($record->tot,2);
-        }
+    $e+=number_format($record->total,2);
+        }}}
     }else{
         $a=0;$b=0;$c=0;$d=0;$e=0;
         $str.='<tr>
@@ -127,7 +129,7 @@ $str='
         <td colspan="3"><b>Jumlah</b></td>
         <td align="center">'.$sumtotalkuantitastarget=$b.'</td>
         <td align="center">'.$sumtotalkuantitasbobot=$c.'</td>
-        <td align="center">'.$sumtotalkuantitasnilai=$d.'</td>
+        <td align="center">'.$sumtotalkuantitassumall=$d.'</td>
         <td align="center">'.$sumtotalkuantitashasil=$e.'</td>
     </tr>
     ';
@@ -137,7 +139,7 @@ $str='
     </tr>  
     <tr align="center">
         <td><b>No</b></td>
-        <td><b>Indikator Yang dinilai</b></td>
+        <td><b>Indikator Yang disumall</b></td>
         <td><b>Difinisi Oprasional</b></td>
         <td><b>Target</b></td>
         <td><b>Capaian</b></td>
@@ -148,22 +150,24 @@ $str='
     if(!empty($Kualitas))
     {        
         $a=0;$b=0;$c=0;$d=0;$e=0;
-        foreach($Kualitas as $record)
+        foreach($Kualitas as $key=>$datas)
         {
+            foreach ($datas as $record) {
+              if($record->indikator_tupoksi=='2'){
     $str.='<tr>
             <td width="30px">'.++$a.'</td>
             <td width="124px">'.$record->indikator.'</td>
-            <td  width="184px">'.$record->difinisi_ops.'</td>
+            <td  width="184px">'.$record->difinisi.'</td>
             <td width="50px" align="center">'.$record->target.'</td>
-            <td width="50px" align="center">'.$record->nilai.'</td>
+            <td width="50px" align="center">'.$record->sumall.'</td>
             <td width="50px" align="center">'.$record->bobot.'</td>
-            <td width="50px" align="center">'.number_format($record->tot,2).'</td>
+            <td width="50px" align="center">'.number_format($record->total,2).'</td>
     </tr>';
     $b+=$record->target;
-    $c+=$record->nilai;
+    $c+=$record->sumall;
     $d+=$record->bobot;
-    $e+=number_format($record->tot,2);
-        }
+    $e+=number_format($record->total,2);
+        }}}
     }else{
         $a=0;$b=0;$c=0;$d=0;$e=0;
         $str.='<tr>
@@ -181,7 +185,7 @@ $str='
         <td colspan="3"><b>Jumlah</b></td>
         <td align="center">'.$sumtotalkualitastarget=$b.'</td>
         <td align="center">'.$sumtotalkualitasbobot=$c.'</td>
-        <td align="center">'.$sumtotalkualitasnilai=$d.'</td>
+        <td align="center">'.$sumtotalkualitassumall=$d.'</td>
         <td align="center">'.$sumtotalkualitashasil=$e.'</td>
     </tr>
     ';
@@ -191,7 +195,7 @@ $str='
     </tr>  
     <tr align="center" bgcolor="#d3d3d3">
         <td><b>No</b></td>
-        <td><b>Indikator Yang dinilai</b></td>
+        <td><b>Indikator Yang disumall</b></td>
         <td><b>Difinisi Oprasional</b></td>
         <td><b>Target</b></td>
         <td><b>Capaian</b></td>
@@ -199,26 +203,28 @@ $str='
         <td><b>Hasil Kinerja</b></td>
     </tr>
     ';
+    
     if(!empty($Perilaku))
-    {
+    {        
         $a=0;$b=0;$c=0;$d=0;$e=0;
-        foreach($Perilaku as $record)
+        foreach($Perilaku as$key=>$datas)
         {
+            foreach ($datas as $record) {
+              if($record->indikator_tupoksi=='3'){
     $str.='<tr>
-        <td width="30px">'.++$a.'</td>
-        <td width="124px">'.$record->indikator.'</td>
-        <td  width="184px">'.$record->difinisi_ops.'</td>
-        <td width="50px" align="center">'.$record->target.'</td>
-        <td width="50px" align="center">'.$record->nilai.'</td>
-        <td width="50px" align="center">'.$record->bobot.'</td>
-        <td width="50px" align="center">'.number_format($record->tot,2).'</td>
+            <td width="30px">'.++$a.'</td>
+            <td width="124px">'.$record->indikator.'</td>
+            <td  width="184px">'.$record->difinisi.'</td>
+            <td width="50px" align="center">'.$record->target.'</td>
+            <td width="50px" align="center">'.$record->sumall.'</td>
+            <td width="50px" align="center">'.$record->bobot.'</td>
+            <td width="50px" align="center">'.number_format($record->total,2).'</td>
     </tr>';
     $b+=$record->target;
-    $c+=$record->nilai;
+    $c+=$record->sumall;
     $d+=$record->bobot;
-    $e+=number_format($record->tot,2);
-        }
-        $z=0;
+    $e+=number_format($record->total,2);
+        }}}
     }else{
         $a=0;$b=0;$c=0;$d=0;$e=0;
         $str.='<tr>
@@ -236,14 +242,71 @@ $str='
         <td colspan="3"><b>Jumlah</b></td>
         <td align="center">'.$sumtotalperilakutarget=$b.'</td>
         <td align="center">'.$sumtotalperilakubobot=$c.'</td>
-        <td align="center">'.$sumtotalperilakunilai=$d.'</td>
+        <td align="center">'.$sumtotalperilakusumall=$d.'</td>
         <td align="center">'.$sumtotalperilakuhasil=$e.'</td>
+    </tr>
+    ';
+    $str.='
+    <tr bgcolor="#d3d3d3">
+        <td colspan="7">C. Tambahan</td>
+    </tr>  
+    <tr align="center" bgcolor="#d3d3d3">
+        <td><b>No</b></td>
+        <td><b>Indikator Yang disumall</b></td>
+        <td><b>Difinisi Oprasional</b></td>
+        <td><b>Target</b></td>
+        <td><b>Capaian</b></td>
+        <td><b>Bobot</b></td>
+        <td><b>Hasil Kinerja</b></td>
+    </tr>
+    ';
+    if(!empty($Tambahan))
+    {
+        $a=0;$b=0;$c=0;$d=0;$e=0;
+        foreach($Tambahan as $key=>$datas)
+        {
+            foreach ($datas as $record) {
+              if($record->indikator_tupoksi=='4'){
+    $str.='<tr>
+        <td width="30px">'.++$a.'</td>
+        <td width="124px">'.$record->indikator.'</td>
+        <td  width="184px">'.$record->difinisi.'</td>
+        <td width="50px" align="center">'.$record->target.'</td>
+        <td width="50px" align="center">'.$record->sumall.'</td>
+        <td width="50px" align="center">'.$record->bobot.'</td>
+        <td width="50px" align="center">'.number_format($record->total,2).'</td>
+    </tr>';
+    $b+=$record->target;
+    $c+=$record->sumall;
+    $d+=$record->bobot;
+    $e+=number_format($record->total,2);
+        }}}
+        $z=0;
+    }else{
+        $a=0;$b=0;$c=0;$d=0;$e=0;
+        $str.='<tr>
+        <td width="30px">'.++$a.'</td>
+        <td width="124px">-</td>
+        <td  width="184px">-</td>
+        <td width="50px" align="center">'.$b.'</td>
+        <td width="50px" align="center">'.$c.'</td>
+        <td width="50px" align="center">'.$d.'</td>
+        <td width="50px" align="center">'.number_format($e,2).'</td>
+    </tr>'; 
+    }
+    $str.='
+    <tr align="center" bgcolor="#d3d3d3">
+        <td colspan="3"><b>Jumlah</b></td>
+        <td align="center">'.$sumtotaltambahantarget=$b.'</td>
+        <td align="center">'.$sumtotaltambahanbobot=$c.'</td>
+        <td align="center">'.$sumtotaltambahansumall=$d.'</td>
+        <td align="center">'.$sumtotaltambahanhasil=$e.'</td>
     </tr>
     ';
     $str.='
     <tr align="center" bgcolor="#d3d3d3">
         <td colspan="6"><b>Jumlah</b></td>
-        <td align="center">'.$sumtotal=$sumtotalkuantitashasil + $sumtotalkualitashasil + $sumtotalperilakuhasil.'</td>
+        <td align="center">'.$sumtotal=$sumtotalkuantitashasil + $sumtotalkualitashasil + $sumtotalperilakuhasil + $sumtotaltambahanhasil.'</td>
     </tr>
     ';
 $str.='</table>';
@@ -264,7 +327,7 @@ $str.='<table>
         <td></td>
     </tr>
     <tr>
-        <td></td>
+        <td>Pegawai yang Menilai</td>
         <td></td>
         <td align="center">Pegawai yang dinilai</td>
     </tr>
@@ -289,14 +352,59 @@ $str.='<table>
         <td></td>
     </tr>
     <tr>
-        <td></td>
+        <td>........................</td>
         <td></td>
         <td align="center">'.$this->session->userdata('pgw_nama').'</td>
     </tr>
     <tr>
-        <td></td>
+        <td>NIP:.................</td>
         <td></td>
         <td>NIP: '.$this->session->userdata('nip').'</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Atasn yang menyetujui</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>.........................................................</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>NIP:.....................................................</td>
+        <td></td>
     </tr>
 ';
 

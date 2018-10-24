@@ -57,8 +57,10 @@ class indikator_penilaian extends CI_Model
     public function datasMasterIndikator()
     {
         $this->db->select('*');
+        $this->db->from('simkin.master_indikator');
+        $this->db->where('jns_input','0');
         // $this->db->order_by('kategori_tindakan_header_urut','asc');
-        $query = $this->db->get('simkin.master_indikator');
+        $query = $this->db->get();
         $Masterindikator = $query->result();
         if(!empty($Masterindikator)){
             return $Masterindikator;

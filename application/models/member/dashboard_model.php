@@ -2,34 +2,14 @@
 
 class dashboard_model extends CI_Model
 {
-    public function datasKegiatanApi($id,$tupoksi)
+    public function Indikator($id)
     {
-        $query =$this->db->query("
-        SELECT * FROM 
-            ((SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kualitas' as jenis FROM simkin.kualitas)UNION
-            (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'perilaku'	as jenis FROM simkin.perilaku)UNION
-            (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kuantitas' as jenis from simkin.kuantitas_pegawai))a WHERE id_pos='".$id."' and jenis ='".$tupoksi."'
-        ");
-        $indikator = $query->result();
-        $lists = "<option value=''>-Pilih Tupoksi-</option>";
-        foreach($indikator as $data){
-          $lists .= "<option value='".$data->id."'>".$data->indikator."-".$data->difinisi_ops."</option>"; // Tambahkan tag option ke variabel $lists
-        }
-        $callback = array('kegiatan'=>$lists);
-        if(!empty($callback)){
-            return $callback;
-         } else {
-            return array();
-        }
-    }
-    public function datasKegiatan($id)
-    {
-        $query =$this->db->query("
-        SELECT * FROM 
-            ((SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kualitas' as jenis FROM simkin.kualitas)UNION
-            (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'perilaku'	as jenis FROM simkin.perilaku)UNION
-            (SELECT id,id_jenis_pos,id_pos,indikator,target,bobot,difinisi_ops,'kuantitas' as jenis from simkin.kuantitas_pegawai))a WHERE id_pos='".$id."'
-        ");
+        $this->db->select('*');
+        $this->db->from('simkin.master_indikator');
+        $this->db->where('aktif','Y');
+        $this->db->where('id_unit_kerja',$id);
+        $this->db->where_in('jns_input',array('2','3'));
+        $query = $this->db->get();
         $indikator = $query->result();
         if(!empty($indikator)){
             return $indikator;
@@ -37,21 +17,16 @@ class dashboard_model extends CI_Model
             return array();
         }
     }
-
-
-    public function datasAllKegiatan($limit, $start, $id)
+    function datasAllKegiatan($limit, $start, $id)
     {
-        $query =$this->db->query("
-        SELECT * FROM 
-        ((SELECT a.id,a.aktif,a.created_at,a.updated_at,a.usr_insrt,a.usr_edit,a.id_tupoksi,nilai,a.usr_id,b.indikator,b.difinisi_ops,'kualitas' as jenis FROM tupoksi_kualitas as a
-        INNER JOIN kualitas as b ON id_tupoksi=b.id 
-        ) UNION
-        (SELECT a.id,a.aktif,a.created_at,a.updated_at,a.usr_insrt,a.usr_edit,a.id_tupoksi,nilai,a.usr_id,b.indikator,b.difinisi_ops,'kuantitas' as jenis FROM tupoksi_kuantitas as a 
-        INNER JOIN kuantitas_pegawai as b ON id_tupoksi=b.id )UNION
-        (SELECT a.id,a.aktif,a.created_at,a.updated_at,a.usr_insrt,a.usr_edit,a.id_tupoksi,nilai,a.usr_id,b.indikator,b.difinisi_ops,'perilaku' as jenis FROM tupoksi_perilaku as a 
-        INNER JOIN perilaku as b ON id_tupoksi=b.id))aa WHERE usr_id='".$id."' AND aktif='Y' order by created_at desc limit '".$limit."' OFFSET '".$start."'
-        ");
-        // print_r($limit);die();
+        $this->db->select('a.*,b.indikator,b.difinisi,b.indikator_tupoksi');
+        $this->db->from('simkin.input_kegitan_tupoksi as a ');
+        $this->db->join('master_indikator as b ','a.id_master_indikator=b.id');
+        $this->db->where('usr_id',$id);
+        $this->db->where('a.aktif','Y');
+        $this->db->limit($limit, $start);
+        $this->db->order_by('created_at', 'DESC');
+        $query = $this->db->get();
         $indikator = $query->result();
         foreach ($indikator as $key) {
             $users[date('Y-m-d', strtotime($key->created_at))][] = $key;
@@ -62,7 +37,6 @@ class dashboard_model extends CI_Model
             return array();
         }
     }
-    
     function add($userInfo,$table)
     {
         $this->db->trans_start();
@@ -73,6 +47,42 @@ class dashboard_model extends CI_Model
         $this->db->trans_complete();
         
         return $insert_id;
+    }
+    function addTupoksiKegitan($userInfo,$table)
+    {
+        $this->db->trans_start();
+        $this->db->insert($table, $userInfo);
+        
+        $insert_id = $this->db->insert_id();
+        $inputtupoksi = array(  
+            'nilai'=>1,
+            'id_master_indikator'=>$insert_id,
+            'aktif'=>'Y',
+            'target'=>1,
+            'bobot'=>1,
+            'usr_id'=>$this->session->userdata('userId'),
+            'created_at'=>date('Y-m-d H:i:s'),
+            'usr_insrt'=>$this->session->userdata ('name')
+        );
+        $this->db->insert('input_kegitan_tupoksi', $inputtupoksi);
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+    function getBoborTarget($date)
+    {     
+        $this->db->select('bobot,target');
+        $this->db->from('simkin.target_bobot');
+        $this->db->where('tgl_akhir>=', $date);
+        $this->db->order_by('tgl_akhir','ASC');
+        $query = $this->db->get();
+        $bobottarget = $query->row();
+        if(!empty($bobottarget)){
+            return $bobottarget;
+         } else {
+            return array();
+        }
     }
     function update($data, $id,$table)
     {     
@@ -96,23 +106,6 @@ class dashboard_model extends CI_Model
         $this->db->update($table, $data);
         
         return $this->db->affected_rows();
-    }
-    function deletefix($id,$table)
-    {
-        $this->db->where('id', $id);
-        $this->db->delete($table);
-        
-        return $this->db->affected_rows();
-    }
-    function getSelect($id,$table,$tipe)
-    {
-        $this->db->select('*,\''.$tipe.'\' as jenis');
-        $this->db->from($table);
-        $this->db->where('aktif', 'Y');
-        $this->db->where('id', $id);
-        $query = $this->db->get();
-        
-        return $query->row();
     }
 }
 

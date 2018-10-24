@@ -60,8 +60,8 @@
                       <td><?php echo $record->indikator ?></td>
                       <td><?php echo $record->bobot ?></td>
                       <td><?php echo $record->target ?></td>
-                      <td><?php echo $record->tgl_akhir ?></td>
                       <td><?php echo $record->tgl_awal ?></td>
+                      <td><?php echo $record->tgl_akhir ?></td>
                       <td><?php echo ($record->aktif == 'Y') ? 'Aktif' : 'Non Aktif';  ?></td>
                       <td class="text-center">
                            <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="<?php echo $record->id; ?>"><i class="fa fa-trash"></i></a>

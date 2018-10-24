@@ -57,23 +57,27 @@
                <?php if(!empty($Kuantitas))
                         {
                           $a=0;$b=0;$c=0;$d=0;$e=0;
-                            foreach($Kuantitas as $record)
+                            foreach($Kuantitas as $key=>$datas)
                             {
+                              foreach ($datas as $record) {
+                                if($record->indikator_tupoksi=='1'){
                                 ?>
                 <tr>
                   <td><a class="showinfo" href="#"> <?= ++$a ?></a></td>
                   <td><?= $record->indikator ?></td>
-                  <td><?= $record->difinisi_ops ?></td>
+                  <td><?= $record->difinisi ?></td>
                   <td class="text-center"><?= $record->target;$b+=$record->target ?></td>
-                  <?php if(!empty($record->id_tindakan)){ ?>
-                  <td class="text-center"><a href="<?= base_url('/member/tupoksi/cetak_detail_tupoksi/').$record->id_tindakan."/".$dates?>" target="_blank" rel="noopener noreferrer"><?= $record->nilai;$d+=$record->nilai ?></a></td>
+                  <?php if($record->jns_input=='0'){ ?>
+                  <td class="text-center"><a href="<?= base_url('/member/tupoksi/cetak_detail_tupoksi_folio/').$record->id."/".$dates?>" target="_blank" rel="noopener noreferrer"><?= $record->sumall;$d+=$record->sumall ?></a></td>
+                  <?php }else if($record->jns_input=='1'){ ?>
+                  <td class="text-center"><a href="<?= base_url('/member/tupoksi/cetak_detail_tupoksi_tindakan/').$record->id."/".$dates?>" target="_blank" rel="noopener noreferrer"><?= $record->sumall;$d+=$record->sumall ?></a></td>
                   <?php }else{ ?>
-                  <td class="text-center"><?= $record->nilai;$d+=$record->nilai ?></td>
+                  <td class="text-center"><?= $record->sumall;$d+=$record->sumall ?></td>
                   <?php } ?>
                   <td class="text-center"><?= $record->bobot;$c+=$record->bobot ?></td>
-                  <td class="text-center"><?= number_format($record->tot,2);$e+=number_format($record->tot,2) ?></td>
+                  <td class="text-center"><?= number_format($record->total,2);$e+=number_format($record->total,2) ?></td>
                 </tr>
-                <?php $id_tindakan=$record->id_tindakan;}
+                <?php $id_tindakan=$record->id;}}}
               }?>
                <tr class="text-center">
                   <td colspan="3"><b>Jumlah</b></td>
@@ -106,19 +110,21 @@
                         {
                             
                           $a=0;$f=0;$g=0;$h=0;$i=0;
-                            foreach($Kualitas as $record)
+                            foreach($Kualitas as $key=>$datas)
                             {
+                              foreach ($datas as $record) {
+                                if($record->indikator_tupoksi=='2'){
                                 ?>
                <tr>
                   <td><?= ++$a ?></td>
                   <td><?= $record->indikator ?></td>
-                  <td><?= $record->difinisi_ops ?></td>
+                  <td><?= $record->difinisi ?></td>
                   <td class="text-center"><?= $record->target;$f+=$record->target ?></td>
-                  <td class="text-center"><?= $record->nilai;$h+=$record->nilai ?></td>
+                  <td class="text-center"><?= $record->sumall;$h+=$record->sumall ?></td>
                   <td class="text-center"><?= $record->bobot;$g+=$record->bobot ?></td>
-                  <td class="text-center"><?= number_format($record->tot,2);$i+=number_format($record->tot,2) ?></td>
+                  <td class="text-center"><?= number_format($record->total,2);$i+=number_format($record->total,2) ?></td>
                 </tr>
-                <?php }}?>
+                <?php }}}}?>
                <tr class="text-center">
                   <td colspan="3"><b>Jumlah</b></td>
                   <td><b><?= $sumtotalkualitastarget=(empty($f))? '0':$f; ?></b></td>
@@ -145,19 +151,21 @@
                <?php if(!empty($Perilaku))
                         {
                             $a=0;$j=0;$k=0;$l=0;$m=0;
-                            foreach($Perilaku as $record)
+                            foreach($Perilaku as $key=>$datas)
                             {
+                              foreach ($datas as $record) {
+                                if($record->indikator_tupoksi=='3'){
                                 ?>
                <tr>
                   <td><?= ++$a ?></td>
                   <td><?= $record->indikator ?></td>
-                  <td><?= $record->difinisi_ops ?></td>
+                  <td><?= $record->difinisi ?></td>
                   <td class="text-center"><?php echo $record->target; $j+=$record->target ?></td>
-                  <td class="text-center"><?php echo $record->nilai; $l+=$record->nilai ?></td>
+                  <td class="text-center"><?php echo $record->sumall; $l+=$record->sumall ?></td>
                   <td class="text-center"><?php echo $record->bobot; $k+=$record->bobot ?></td>
-                  <td class="text-center"><?php echo number_format($record->tot,2);$m+=number_format($record->tot,2) ?></td>
+                  <td class="text-center"><?php echo number_format($record->total,2);$m+=number_format($record->total,2) ?></td>
                 </tr>
-                <?php }}?>
+                <?php }}}}?>
                <tr class="text-center">
                   <td colspan="3"><b>Jumlah</b></td>
                   <td><b><?= $sumtotalperilakutarget=(empty($j))? '0':$j; ?></b></td>
@@ -165,10 +173,51 @@
                   <td><b><?= $sumtotalperilakucapaian=(empty($k))?'0':$k;?></b></td>
                   <td><b><?= $sumtotalperilakuhasil=(empty($m))?'0':number_format($m,2);?></b></td>
                 </tr>
+               </tbody>
+               <thead>
+                <tr>
+                  <td colspan="7">D. Kegiatan Tambahan</td>
+                </tr>       
+                <tr class="text-center">
+                  <td><b>No</b></td>
+                  <td><b>Indikator Yang dinilai</b></td>
+                  <td><b>Difinisi Oprasional</b></td>
+                  <td><b>Target</b></td>
+                  <td><b>Capaian</b></td>
+                  <td><b>Bobot</b></td>
+                  <td><b>Hasil Kinerja</b></td>
+                </tr>
+               </thead>
+               <tbody>
+               <?php if(!empty($Tambahan))
+                        {
+                            $a=0;$j=0;$k=0;$l=0;$m=0;
+                            foreach($Tambahan as $key=>$datas)
+                            {
+                              foreach ($datas as $record) {
+                                if($record->indikator_tupoksi=='4'){
+                                ?>
+               <tr>
+                  <td><?= ++$a ?></td>
+                  <td><?= $record->indikator ?></td>
+                  <td><?= $record->difinisi ?></td>
+                  <td class="text-center"><?php echo $record->target; $j+=$record->target ?></td>
+                  <td class="text-center"><?php echo $record->sumall; $l+=$record->sumall ?></td>
+                  <td class="text-center"><?php echo $record->bobot; $k+=$record->bobot ?></td>
+                  <td class="text-center"><?php echo number_format($record->total,2);$m+=number_format($record->total,2) ?></td>
+                </tr>
+                <?php }}}}?>
+               <tr class="text-center">
+                  <td colspan="3"><b>Jumlah</b></td>
+                  <td><b><?= $sumtotaltambahantarget=(empty($j))? '0':$j; ?></b></td>
+                  <td><b><?= $sumtotaltambahanbobot=(empty($l))?'0':$l;?></b></td>
+                  <td><b><?= $sumtotaltambahancapaian=(empty($k))?'0':$k;?></b></td>
+                  <td><b><?= $sumtotaltambahanhasil=(empty($m))?'0':number_format($m,2);?></b></td>
+                </tr>
                 <tr><td colspan="7"></td></tr>
                <tr class="text-center">
                   <td colspan="6"><b>Total Keseluruhan</b></td>
-                  <td><b><?= $sumtotalkuantitashasil + $sumtotalkualitashasil + $sumtotalperilakuhasil ?></b></td>
+                  <td><b><?= $sumtotalkuantitashasil + $sumtotalkualitashasil + $sumtotalperilakuhasil +  $sumtotaltambahanhasil?></b></td>
                 </tr>
                </tbody>
               </table>
