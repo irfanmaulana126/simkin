@@ -16,7 +16,7 @@ class tupoksi_model extends CI_Model
 										INNER JOIN global.global_auth_user as g on g.usr_id=f.id_usr
 										INNER JOIN global.global_customer_user as h on e.id_cust_usr=h.cust_usr_id
                     INNER JOIN hris.hris_pegawai as i on g.id_pgw=i.pgw_id WHERE fol_pelaksana_tipe IN('1','10')
-                    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' and a.id='".$tupoksi."' GROUP BY f.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input ORDER BY tindakan_tanggal DESC");
+                    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' and a.id='".$tupoksi."' and a.id_unit_kerja='".$this->session->userdata('unit')."' GROUP BY f.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input ORDER BY tindakan_tanggal DESC");
         $indikator = $query->result();
         if(!empty($indikator)){
             return $indikator;
@@ -34,7 +34,7 @@ class tupoksi_model extends CI_Model
         INNER JOIN global.global_customer_user as e on c.id_cust_usr=e.cust_usr_id
         INNER JOIN global.global_auth_user as f on f.usr_id=d.id_usr
         INNER JOIN hris.hris_pegawai as g on f.id_pgw=g.pgw_id WHERE fol_pelaksana_tipe IN('1','10')
-                    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' and a.id='".$tupoksi."' GROUP BY d.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input  ORDER BY tindakan_tanggal DESC");
+                    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' and a.id='".$tupoksi."' and a.id_unit_kerja='".$this->session->userdata('unit')."' GROUP BY d.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input  ORDER BY tindakan_tanggal DESC");
         $indikator = $query->result();
         if(!empty($indikator)){
             return $indikator;
@@ -47,7 +47,7 @@ class tupoksi_model extends CI_Model
         $query =$this->db->query("
         SELECT *, (target * sumall)/bobot as total FROM simkin.master_indikator as a LEFT JOIN 
         (
-        SELECT id_master_indikator as id ,usr_id,sum(nilai) as sumall,target,bobot from input_kegitan_tupoksi WHERE usr_id='".$this->session->userdata('userId')."' and created_at::TEXT like '".$date."%' and aktif='Y' GROUP BY id_master_indikator,nilai,usr_id,usr_insrt,aktif,target,bobot
+        SELECT id_master_indikator as id ,usr_id,sum(nilai) as sumall,target,bobot from input_kegitan_tupoksi WHERE usr_id='".$this->session->userdata('userId')."' and created_at::TEXT like '".$date."%' and aktif='Y' GROUP BY id_master_indikator,usr_id,usr_insrt,aktif,target,bobot
         UNION
         select a.id,f.id_usr as usr_id,count(cust_usr_nama) as sumall,target,bobot from simkin.master_indikator as a 
                                     INNER JOIN simkin.detail_indikator as b on a.id=b.id_master_indikator
@@ -71,7 +71,7 @@ class tupoksi_model extends CI_Model
                                     INNER JOIN target_bobot as h on h.id_m_indikator=b.id_master_indikator
                                     WHERE fol_pelaksana_tipe IN('1','10') and tindakan_tanggal::TEXT like '".$date."%' and d.id_usr='".$this->session->userdata('userId')."' and tgl_akhir::TEXT<='".$date."%' GROUP BY a.id,d.id_usr,target,bobot
                                             ) as b
-    on b.id=a.id 
+    on b.id=a.id WHERE aktif='Y' and a.id_unit_kerja='".$this->session->userdata('unit')."'
     ORDER BY indikator_tupoksi ASC ");
         $indikator = $query->result();
         if(!empty($indikator)){
@@ -93,16 +93,17 @@ class tupoksi_model extends CI_Model
     INNER JOIN global.global_auth_user as g on g.usr_id=f.id_usr
     INNER JOIN global.global_customer_user as h on e.id_cust_usr=h.cust_usr_id
     INNER JOIN hris.hris_pegawai as i on g.id_pgw=i.pgw_id WHERE fol_pelaksana_tipe IN('1','10')
-    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' GROUP BY f.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input
+    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' and a.id_unit_kerja='".$this->session->userdata('unit')."' GROUP BY f.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input
     UNION 
-    select d.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input  from simkin.master_indikator as a 
+    select d.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input 
+    from simkin.master_indikator as a 
     INNER JOIN simkin.detail_indikator_folio as b on a.id=b.id_master_indikator
     INNER JOIN klinik.klinik_folio as c on c.id_poli=b.id_folio
     INNER JOIN klinik.klinik_folio_pelaksana as d on d.id_fol= c.fol_id
     INNER JOIN global.global_customer_user as e on c.id_cust_usr=e.cust_usr_id
     INNER JOIN global.global_auth_user as f on f.usr_id=d.id_usr
     INNER JOIN hris.hris_pegawai as g on f.id_pgw=g.pgw_id WHERE fol_pelaksana_tipe IN('1','10')
-    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' GROUP BY d.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input  ORDER BY tindakan_tanggal DESC");
+    and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' and a.id_unit_kerja='".$this->session->userdata('unit')."' GROUP BY d.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input  ORDER BY tindakan_tanggal DESC");
         $indikator = $query->result();
         if(!empty($indikator)){
             return $indikator;

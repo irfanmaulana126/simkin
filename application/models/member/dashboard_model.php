@@ -59,7 +59,7 @@ class dashboard_model extends CI_Model
             'id_master_indikator'=>$insert_id,
             'aktif'=>'Y',
             'target'=>1,
-            'bobot'=>1,
+            'bobot'=>0.5,
             'usr_id'=>$this->session->userdata('userId'),
             'created_at'=>date('Y-m-d H:i:s'),
             'usr_insrt'=>$this->session->userdata ('name')
@@ -70,11 +70,12 @@ class dashboard_model extends CI_Model
         
         return $insert_id;
     }
-    function getBoborTarget($date)
+    function getBoborTarget($date,$master)
     {     
         $this->db->select('bobot,target');
         $this->db->from('simkin.target_bobot');
         $this->db->where('tgl_akhir>=', $date);
+        $this->db->where('id_m_indikator =', $master);
         $this->db->order_by('tgl_akhir','ASC');
         $query = $this->db->get();
         $bobottarget = $query->row();
@@ -106,6 +107,27 @@ class dashboard_model extends CI_Model
         $this->db->update($table, $data);
         
         return $this->db->affected_rows();
+    }
+    function getSelect($id,$table)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where('aktif', 'Y');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        
+        return $query->row();
+    }
+    function getSelectKegiatan($id)
+    {
+        $this->db->select('*');
+        $this->db->from('input_kegitan_tupoksi as a');
+        $this->db->join('master_indikator as b', 'a.id_master_indikator=b.id');
+        $this->db->where('a.aktif', 'Y');
+        $this->db->where('a.id', $id);
+        $query = $this->db->get();
+        
+        return $query->row();
     }
 }
 

@@ -36,7 +36,7 @@ class Tindakan_pasien extends BaseController
 		if (!empty($this->input->post('min'))){ $where['tindakan_tanggal >='] =$this->input->post('min'); $data['min']=$this->input->post('min'); }
 		if (!empty($this->input->post('max'))){ $where['tindakan_tanggal <='] =$this->input->post('max');$data['max']=$this->input->post('max');}
 		if (!empty($this->input->post('nama'))) { $where['cust_usr_nama like'] = '%%'.$this->input->post('nama').'%%'; $data['nama']=$this->input->post('nama'); }else{ $data['nama']='';}	
-		if (!empty($this->input->post('tindakan'))) { $where['indikator'] = $this->input->post('tindakan'); $data['indikator']=$this->input->post('tindakan');}else{$data['indikator']=''; }            
+		if (!empty($this->input->post('tindakan'))) { $where['a.id'] = $this->input->post('tindakan'); $data['indikator']=$this->input->post('tindakan');}else{$data['indikator']=''; }            
         clearstatcache();
         $data['datas']=$this->tindakan_kegiatan->datasCusTindakan($where); 
         $this->loadViewsMember("member/tindakan_pasien/indexs", $data , NULL);

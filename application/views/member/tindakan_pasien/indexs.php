@@ -36,7 +36,7 @@
                             <select class="column_filter form-control" name="tindakan" id="tindakan">
                                 <option value=""></option>  
                                 <?php foreach ($tindakan as $key ) { ?>
-                                <option value="<?=$key->id?>"  <?php if($indikator==$key->indikator){echo "selected";}?>><?=$key->indikator?></option>  
+                                <option value="<?=$key->id?>"  <?php if($indikator==$key->id){echo "selected";}?>><?=$key->indikator?></option>  
                                 <?php }?>
                             </select>
                         </div>

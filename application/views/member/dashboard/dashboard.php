@@ -208,6 +208,7 @@ jQuery(document).ready(function(){
 	jQuery(document).on("click", ".deleteUser", function(){
 		var userId = $(this).data("id"),
 		  tipes = $(this).data("tipe"),
+		  masters = $(this).data("master"),
 			currentRow = $(this);
 	
 		var confirmation = confirm("Are you sure to delete this ?");
@@ -218,7 +219,7 @@ jQuery(document).ready(function(){
 			type : "POST",
 			dataType : "JSON",
 			url : baseURL + "member/Dashboard/delete",
-			data : { id : userId,tipe:tipes },
+			data : { id : userId,tipe:tipes,master:masters },
 			});
       
       location.reload(true);
@@ -232,7 +233,7 @@ jQuery(document).ready(function(){
 	
 });
 
-function edit(id,tipe)
+function edit(id)
 {
     save_method = 'update';
     $('.form-group').removeClass('has-error'); // clear error class
@@ -240,17 +241,17 @@ function edit(id,tipe)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo base_url()?>member/Dashboard/oldEdit/" + id +"/" + tipe,
+        url : "<?php echo base_url()?>member/Dashboard/oldEdit/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
             $('[name="id"]').val(data.id);
-            $('#tupoksi').val(data.jenis).change();
-            $('#id_tupoksi').val(data.id_tupoksi).change();
+            $('#tupoksi').val(data.indikator_tupoksi).change();
+            $('#id_tupoksi').val(data.id_master_indikator).change();
             $('[name="nilai"]').val(data.nilai);
             $('#form').removeAttr('action'); // show bootstrap modal when complete loaded
-            $('#form').attr('action', '<?php echo base_url();?>member/Dashboard/edit/'+id+'/'+tipe+''); // show bootstrap modal when complete loaded
+            $('#form').attr('action', '<?php echo base_url();?>member/Dashboard/edit/'+id); // show bootstrap modal when complete loaded
             $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Indikator Kualitas Pegawai'); // Set title to Bootstrap modal title
 

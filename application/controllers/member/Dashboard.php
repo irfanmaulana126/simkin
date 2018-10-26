@@ -83,11 +83,11 @@ class Dashboard extends BaseController
                          
                         </div>
                         <div class="timeline-footer">';
-                        if(date('Y-m-d', strtotime($row->created_at))==date('Y-m-d')){
-                            $output .= '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.',\''.$indikator_tupoksi.'\')"><i class="fa fa-pencil"></i></a>';
+                        if(date('Y-m-d', strtotime($row->created_at))==date('Y-m-d') && $row->indikator_tupoksi != '4'){
+                            $output .= '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit('.$row->id.')"><i class="fa fa-pencil"></i></a>';
                         }
                         $output .='&nbsp;
-                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="'.$row->id.'" data-tipe="\''.$indikator_tupoksi.'\'"><i class="fa fa-trash"></i></a>
+                          <a class="btn btn-sm btn-danger deleteUser" href="#" data-id="'.$row->id.'" data-master="'.$row->id_master_indikator.'" data-tipe="1"><i class="fa fa-trash"></i></a>
                         </div>
                       </div>
                     </li>
@@ -138,7 +138,7 @@ class Dashboard extends BaseController
                 $nilai = $this->input->post('nilai');
                 switch (true) {
                     case ($tupoksi == '1' || $tupoksi == '2' || $tupoksi == '3' ):
-                        $date = $this->dashboard_model->getBoborTarget(date('Y-m-d'));
+                        $date = $this->dashboard_model->getBoborTarget(date('Y-m-d'),$id_tupoksi);
                             $userInfo = array(  
                                 'nilai'=>$nilai,
                                 'id_master_indikator'=>$id_tupoksi,
@@ -172,185 +172,49 @@ class Dashboard extends BaseController
                 redirect('/member/dashboard');
         
     }
-    function edit($id,$tipe)
+    function edit($id)
     {
                 $tupoksi = $this->input->post('tupoksi');
                 $id_tupoksi = $this->input->post('id_tupoksi');
                 $nilai = $this->input->post('nilai');
-                switch ($tupoksi) {
-                    case 'kuantitas':
-                        if($tipe==$tupoksi){
-                            $userInfo = array(  
-                                'id_tupoksi'=>$id_tupoksi,
-                                'nilai'=>$nilai,
-                                'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
-                                'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
-                            );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kuantitas');
-                        }else{
-                            $userInfo = array(  
-                                'id_tupoksi'=>$id_tupoksi,
-                                'nilai'=>$nilai,
-                                'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
-                                'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
-                            );
-                            switch ($tipe) {
-                                case 'kuantitas':
-                                    $table='tupoksi_kuantitas';
-                                    break;
-                                case 'kualitas':
-                                    $table='tupoksi_kualitas';
-                                    break;
-                                case 'perilaku':
-                                    $table='tupoksi_perilaku';
-                                    break;
-                                case 'kegiatan':
-                                    $table='tupoksi_kegiatan';
-                                    $userInfo = array(  
-                                        'id_tupoksi'=>$id_tupoksi,
-                                        'nilai'=>$nilai,
-                                        'aktif'=>'Y',
-                                        'usr_id'=>$this->session->userdata('userId'),
-                                        'created_at'=>date('Y-m-d H:i:s'),
-                                        'usr_insrt'=>$this->session->userdata ('name')
-                                    );
-                                    break;
-                            }
-                            $this->dashboard_model->deletefix($id,$table);
-                            $result = $this->dashboard_model->add($userInfo,'tupoksi_kuantitas');
-                        }
-                        break;
-                    case 'kualitas':
-                        if($tipe==$tupoksi){
-                            $userInfo = array(   
-                                'id_tupoksi'=>$id_tupoksi,
-                                'nilai'=>$nilai,
-                                'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
-                                'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
-                            );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kualitas');
-                        }else{
-                            $userInfo = array(  
-                                'id_tupoksi'=>$id_tupoksi,
-                                'nilai'=>$nilai,
-                                'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
-                                'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
-                            );
-                            switch ($tipe) {
-                                case 'kuantitas':
-                                    $table='tupoksi_kuantitas';
-                                    break;
-                                case 'kualitas':
-                                    $table='tupoksi_kualitas';
-                                    break;
-                                case 'perilaku':
-                                    $table='tupoksi_perilaku';
-                                    break;
-                            }
-                            $this->dashboard_model->deletefix($id,$table);
-                            $result = $this->dashboard_model->add($userInfo,'tupoksi_kualitas');
-                        }
-                        break;
-                    case 'perilaku':
-                        if($tipe==$tupoksi){
-                            $userInfo = array(  
-                                'id_tupoksi'=>$id_tupoksi,
-                                'nilai'=>$nilai,
-                                'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
-                                'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
-                            );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_perilaku');
-                        }else{
-                            $userInfo = array(  
-                                'id_tupoksi'=>$id_tupoksi,
-                                'nilai'=>$nilai,
-                                'aktif'=>'Y',
-                                'usr_id'=>$this->session->userdata('userId'),
-                                'created_at'=>date('Y-m-d H:i:s'),
-                                'usr_insrt'=>$this->session->userdata ('name')
-                            );
-                            switch ($tipe) {
-                                case 'kuantitas':
-                                    $table='tupoksi_kuantitas';
-                                    break;
-                                case 'kualitas':
-                                    $table='tupoksi_kualitas';
-                                    break;
-                                case 'perilaku':
-                                    $table='tupoksi_perilaku';
-                                    break;
-                            }
-                            $this->dashboard_model->deletefix($id,$table);
-                            $result = $this->dashboard_model->add($userInfo,'tupoksi_perilaku');
-                        }
-                            
-                        break;
-                    default:
-                redirect('/member/dashboard');
-                        break;
-                }
+                $date = $this->dashboard_model->getBoborTarget(date('Y-m-d'),$id_tupoksi);
+                $userInfo = array(  
+                    'nilai'=>$nilai,
+                    'id_master_indikator'=>$id_tupoksi,
+                    'aktif'=>'Y',
+                    'target'=>$date->target,
+                    'bobot'=>$date->bobot,
+                    'usr_id'=>$this->session->userdata('userId'),
+                    'updated_at'=>date('Y-m-d H:i:s'),
+                    'usr_edit'=>$this->session->userdata ('name')
+                );
+                $result = $this->dashboard_model->update($userInfo,$id,'input_kegitan_tupoksi');
                 redirect('/member/dashboard');
     }
     function delete()
     {
-                $id = $this->input->post('id');
-                $tipe = $this->input->post('tipe');
-                switch ($tipe) {
-                    case '\'kuantitas\'':
-                            $userInfo = array(  
-                                'aktif'=>'N'
-                            );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kuantitas');
-                        break;
-                    case '\'kualitas\'':
-                            $userInfo = array(   
-                                'aktif'=>'N'
-                            );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kualitas');
-                        break;
-                    case '\'perilaku\'': $userInfo = array(  
-                                'aktif'=>'N'
-                            );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_perilaku');
-                        break;
-                    case '\'kegiatan\'': $userInfo = array(  
-                                'aktif'=>'N'
-                            );
-                            $result = $this->dashboard_model->update($userInfo,$id,'tupoksi_kegiatan');
-                        break;
-                }
+        $id = $this->input->post('id');
+        $tipe = $this->input->post('tipe');
+        $master = $this->input->post('master');
+        
+        $userInfo = array(  
+            'aktif'=>'N'
+        );
+        if (!empty($tipe)) {
+            $userInfo = array(  
+                'aktif'=>'N'
+            );
+            $result = $this->dashboard_model->update($userInfo,$master,'master_indikator');
+        }
+        $result = $this->dashboard_model->update($userInfo,$id,'input_kegitan_tupoksi');
+                
 
     }
-    function oldEdit($id = NULL,$tipe = NULL)
+    function oldEdit($id = NULL)
     {
-        switch ($tipe) {
-            case 'kuantitas':
-                    $data = $this->dashboard_model->getSelect($id,'tupoksi_kuantitas',$tipe);
-                    echo json_encode($data);
-                break;
-            case 'kualitas':
-                    $data = $this->dashboard_model->getSelect($id,'tupoksi_kualitas',$tipe);
-                    echo json_encode($data);
-                break;
-            case 'perilaku':
-                    $data = $this->dashboard_model->getSelect($id,'tupoksi_perilaku',$tipe);
-                    echo json_encode($data);
-                break;
-            default:
-        redirect('/member/dashboard');
-                break;
-        }
-    }
+        $data = $this->dashboard_model->getSelectKegiatan($id);
+        echo json_encode($data);
+     }
     function pageNotFound()
     {
         $data['aktif_menu']=''; 
