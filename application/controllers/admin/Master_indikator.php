@@ -123,7 +123,13 @@ class Master_indikator extends BaseController
         $data['aktif_menu_sub']='indikator'; 
         $data['datas'] = $this->indikator_penilaian->datasTargetBobot($id);
         $data['id'] = $id;
+        $data['detail'] = $this->indikator_penilaian->getDetail($id);
         $this->loadViewsAdmin("admin/master_indikator/detail", $data , NULL);
+    }
+    function detail_js($id)
+    {
+        $data = $this->indikator_penilaian->getDetail($id);
+        echo json_encode($data);
     }
     function TargetBobot()
     {

@@ -22,6 +22,9 @@ class Dashboard extends BaseController
         $this->load->helper(array('form', 'url'));
         if($this->isAdmin()==true){
             redirect('member/user');
+        }
+        if($this->session->userdata('tipe')=='0'){
+            redirect('member/tupoksi');
         }  
     }
     
@@ -146,6 +149,7 @@ class Dashboard extends BaseController
                                 'target'=>$date->target,
                                 'bobot'=>$date->bobot,
                                 'usr_id'=>$this->session->userdata('userId'),
+                                'created'=>date('Y-m-d H:i:s'),
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'usr_insrt'=>$this->session->userdata ('name')
                             );
@@ -159,6 +163,7 @@ class Dashboard extends BaseController
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'usr_insrt'=>$this->session->userdata ('name'),
                                 'jns_input'=>'3',
+                                'id_unit_kerja'=>$this->session->userdata('unit'),
                                 'indikator_tupoksi'=>'4'
                             );
                             $this->dashboard_model->addTupoksiKegitan($inputkegiatan,'master_indikator');

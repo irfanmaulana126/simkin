@@ -209,6 +209,25 @@ function targets(id)
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('[name="id"]').val(id);
+    $.ajax({
+        url : "<?=base_url();?>admin/Master_indikator/detail_js/" + id,
+        type: "GET",
+        dataType: "JSON",
+        success: function(res)
+        {
+            $.each(res, function(key,data) {
+                $('#jabatans').text(data.nama_jabatan),
+                $('#units').text(data.nama_unit),
+                $('#jns_indikator').text(data.nama),
+                $('#indikator').text(data.indikator),
+                $('#difinisi').text(data.difinisi)                
+            });
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error get data from ajax');
+        }
+    });
     $('#targetbobot').modal('show'); // show bootstrap modal when complete loaded
 }
 </script>
@@ -292,6 +311,17 @@ function targets(id)
       </div>
       <div class="modal-body">
     <form action="<?php echo base_url();?>admin/Master_indikator/TargetBobot" id="form" method="POST">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6"><p class="info-box-text"><span class="label bg-red"><span id="jabatans"></span></span></p></div>
+            <div class="col-md-6"><p class="info-box-text"><span class="label bg-blue"><span id="jns_indikator"></span></span></p></div>
+            <div class="col-md-6"><p class="info-box-text"><span class="label bg-green"><span id="units"></span></span></p></div>
+            <div class="col-md-6"><p class="info-box-text"><span class="label bg-yellow"><span id="indikator"></span></span></p></div>
+        <div class="col-md-12">
+            <blockquote><span id="difinisi"></span></blockquote>
+        </div>
+        </div>
+    </div>
     <div class="form-group">
             <label >Tanggal Awal</label>
             <input type="hidden" name="id" id="id" class="form-control" readonly required>

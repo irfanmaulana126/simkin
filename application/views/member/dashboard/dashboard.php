@@ -310,10 +310,14 @@ $(function(){
             <label >Pilih Tupoksi</label>
             <select name="tupoksi" class="form-control select2" id="tupoksi" style="width: 100%;" required>
                 <option value="">-Pilih Master Tupoksi-</option>
+                <?php if($this->session->userdata('tipe')=='1'){?>
                 <option value="1">Kuantitas</option>
+                <?php } ?>
                 <option value="2">Kualitas</option>
+                <?php if($this->session->userdata('tipe')=='1'){?>
                 <option value="3">Perilaku</option>
-                <option value="4">Kegiatan</option>
+                <?php } ?>
+                <option value="4">Kegiatan Tambahan</option>
             </select>
         </div>
         <div class="input-div">

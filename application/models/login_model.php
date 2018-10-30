@@ -10,7 +10,7 @@ class Login_model extends CI_Model
      */
     function loginMe($email, $password)
     {
-        $this->db->select('a.*,c.*,b.rol_name,d.nama_unit');
+        $this->db->select('a.*,c.*,b.rol_name,d.nama_unit,d.tipe,d.id_jabatan');
         $this->db->from('global.global_auth_user as a');
         $this->db->join('global.global_auth_role as b','a.id_rol=b.rol_id','left');
         $this->db->join('hris.hris_pegawai as c ','a.id_pgw=c.pgw_id','left');

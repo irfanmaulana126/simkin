@@ -45,9 +45,9 @@ class tupoksi_model extends CI_Model
     public function datasDetailAllTupoksi($date)
     {
         $query =$this->db->query("
-        SELECT *, (target * sumall)/bobot as total FROM simkin.master_indikator as a LEFT JOIN 
+        SELECT *, (sumall / target)*bobot as total FROM simkin.master_indikator as a LEFT JOIN 
         (
-        SELECT id_master_indikator as id ,usr_id,sum(nilai) as sumall,target,bobot from input_kegitan_tupoksi WHERE usr_id='".$this->session->userdata('userId')."' and created_at::TEXT like '".$date."%' and aktif='Y' GROUP BY id_master_indikator,usr_id,usr_insrt,aktif,target,bobot
+        SELECT id_master_indikator as id ,usr_id,sum(nilai) as sumall,target,bobot from input_kegitan_tupoksi WHERE usr_id='".$this->session->userdata('userId')."' and created::TEXT like '".$date."%' and aktif='Y' GROUP BY id_master_indikator,usr_id,usr_insrt,aktif,target,bobot
         UNION
         select a.id,f.id_usr as usr_id,count(cust_usr_nama) as sumall,target,bobot from simkin.master_indikator as a 
                                     INNER JOIN simkin.detail_indikator as b on a.id=b.id_master_indikator

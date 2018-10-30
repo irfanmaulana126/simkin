@@ -67,13 +67,12 @@ class Pegawai extends BaseController
             $userInfo = array(
                 'id_jabatan'=>$jabatan, 
                 'id_unit_kerja'=>$unit,
-                'id_pgw'=>$id_pegawai,
                 'usr_edit'=>$this->session->userdata('name'),
                 'updated_at'=>date('Y-m-d H:i:s')
             );
             $result = $this->pegawai_model->editPegawai($userInfo, $id);
-            $userInfo = array('id_unit_kerja'=>$unit);
-            $result = $this->pegawai_model->editPegawaihris($userInfo,$id_pegawai);
+            $userInfo2 = array('id_unit_kerja'=>$unit);
+            $result = $this->pegawai_model->editPegawaihris($userInfo2,$id_pegawai);
                 
                 
                 redirect('/admin/Pegawai');

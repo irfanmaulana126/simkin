@@ -31,11 +31,13 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
+            <?php if($this->session->userdata('tipe')!='0' ){?>
             <li class="treeview">
               <a href="<?php echo base_url(); ?>member/Dashboard">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
               </a>
             </li>
+            <?php } ?>
             <li class="treeview">
               <a href="<?= base_url();?>member/tupoksi" >
                 <i class="fa fa-thumb-tack"></i>
@@ -47,6 +49,14 @@
               <a href="<?= base_url();?>member/tindakan_pasien" >
                 <i class="fa fa-thumb-tack"></i>
                 <span>Data Tindakan Pasien</span>
+              </a>
+            </li>
+            <?php } ?>
+            <?php if($this->session->userdata('tipe')=='1'){?>
+            <li class="treeview">
+              <a href="<?= base_url();?>member/PegawaiUnit" >
+                <i class="fa fa-thumb-tack"></i>
+                <span>Data Pegawai</span>
               </a>
             </li>
             <?php } ?>

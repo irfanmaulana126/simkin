@@ -23,7 +23,9 @@ class Tindakan_pasien extends BaseController
         $this->isLoggedIn();   
         if($this->isAdmin()==true){
             redirect('admin/user');
-        }  
+        }if($this->session->userdata('tipe')=='0'){
+            redirect('member/tupoksi');
+        }   
     }
     public function index($value='')
     {

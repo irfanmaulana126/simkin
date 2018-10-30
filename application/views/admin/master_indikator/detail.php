@@ -17,6 +17,50 @@
             <a href="#" class="close" data-dismiss="alert">&times;</a> <?= $this->session->flashdata('error') ?> </div>
     <?php } ?>
     <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Detail Tupoksi</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <div class="col-md-6">
+                        <table>
+                            <tr>
+                                <td>Jabatan Kerja </td>
+                                <td>:</td>
+                                <td><p class="info-box-text"><span class="label bg-red"><?= $detail[0]->nama_jabatan?></span></p></td>
+                            </tr>
+                            <tr>
+                                <td>Unit Kerja</td>
+                                <td>:</td>
+                                <td><p class="info-box-text"><span class="label bg-green"> <?= $detail[0]->nama_unit?></span></p></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                    <table>
+                            <tr>
+                                <td>Jenis Indikator</td>
+                                <td>:</td>
+                                <td><p class="info-box-text"><span class="label bg-blue"><?= $detail[0]->nama?></span></p></td>
+                            </tr>
+                            <tr>
+                                <td>Indikator</td>
+                                <td>:</td>
+                                <td><p class="info-box-text"><span class="label bg-yellow"><?= $detail[0]->indikator?></span></p></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                       <blockquote> <?= $detail[0]->difinisi?></blockquote>
+                    </div>
+                </div><!-- /.box-body -->
+                <div class="box-footer clearfix">
+                </div>
+              </div><!-- /.box -->
+            </div>
+        </div>
+    <div class="row">
             <div class="col-xs-12 text-right">
                 <div class="form-group">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#targetbobot">Tambah</button>

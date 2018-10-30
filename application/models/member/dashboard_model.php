@@ -62,6 +62,7 @@ class dashboard_model extends CI_Model
             'bobot'=>0.5,
             'usr_id'=>$this->session->userdata('userId'),
             'created_at'=>date('Y-m-d H:i:s'),
+            'created'=>date('Y-m-d H:i:s'),
             'usr_insrt'=>$this->session->userdata ('name')
         );
         $this->db->insert('input_kegitan_tupoksi', $inputtupoksi);

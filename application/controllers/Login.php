@@ -76,8 +76,10 @@ class Login extends CI_Controller
                     'foto'=>$res->pgw_foto,
                     'nip'=>$res->pgw_nip,
                     'jk'=>$res->pgw_jenis_kelamin,
+                    'jabatan'=>$res->id_jabatan,
                     'unit'=>$res->id_unit_kerja,
                     'nama_unit'=>$res->nama_unit,
+                    'tipe'=>$res->tipe,
                     'isLoggedIn' => TRUE
                 );
                                     
@@ -87,7 +89,12 @@ class Login extends CI_Controller
                 redirect('admin/Dashboard');
             }else{
                 if (!empty($this->session->userdata('unit'))) {
-                    redirect('member/Dashboard');                        
+                    if($this->session->userdata('tipe')=='0'){
+                        redirect('member/Dashboard');                        
+                    }else{
+                        redirect('member/tupoksi');                        
+                        
+                    }
                 } else {
                     $this->session->set_userdata('isLoggedIn',FALSE);
                     $this->session->set_flashdata('error', 'Akun anda belum terdaftar dikami hubungi PDE');

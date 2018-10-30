@@ -128,12 +128,12 @@ function edit(id)
         success: function(data)
         {
             $('[name="id"]').val(data.id);
-            $('#jabatan').val(data.id_jabatan).change();
-            $('#unit').val(data.id_unit_kerja).change();
-            $('#id_pegawai').val(data.id_pgw).change();
-            $('#form').removeAttr('action'); // show bootstrap modal when complete loaded
-            $('#form').attr('action', '<?php echo base_url();?>admin/pegawai/edit/'+id+''); // show bootstrap modal when complete loaded
-            $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
+            $('#jabatans').val(data.id_jabatan).change();
+            $('#units').val(data.id_unit_kerja).change();
+            $('#id_pegawais').val(data.id_pgw);
+            $('#forms').removeAttr('action'); // show bootstrap modal when complete loaded
+            $('#forms').attr('action', '<?php echo base_url();?>admin/pegawai/edit/'+id+''); // show bootstrap modal when complete loaded
+            $('#exampleModaledit').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Unit Kerja Pegawai'); // Set title to Bootstrap modal title
 
         },
@@ -184,6 +184,46 @@ function edit(id)
             </select>
         </div>
         
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </form>
+        </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModaledit" role="dialog" aria-labelledby="exampleModaleditLabel" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModaleditLabel"></h5>
+      </div>
+      <div class="modal-body">
+    <form action="" id="forms" method="POST">
+    <input type="hidden" name="id_pegawai" id="id_pegawais">
+        <div class="form-group">
+            <label >Jabatan</label>
+            <select name="jabatan" class="form-control select2" id="jabatans" style="width: 100%;" required>
+                <option value="">-Pilih Jabatan-</option>
+                <?php foreach ($JenisPosisiKategori as $key) {?>
+                <option value="<?= $key->id?>"><?= $key->nama_jabatan?></option>
+                <?php }?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Unit Kerja</label>
+            <select name="unit" class="form-control select2" id="units" style="width: 100%;" required>
+                <option value="">-Pilih Unit Kerja-</option>
+                <?php foreach ($JenisPosisi as $key) {?>
+                <option value="<?= $key->id?>" class="<?= $key->id_jabatan?>" ids="<?= $key->nama_unit?>"><?= $key->nama_unit?></option>
+                <?php }?>
+            </select>
+        </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Save</button>

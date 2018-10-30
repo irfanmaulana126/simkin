@@ -18,6 +18,23 @@ class indikator_penilaian extends CI_Model
             return array();
         }
     }
+    public function getDetail($id)
+    {
+        $this->db->select('*');
+        $this->db->from('simkin.master_indikator as a');
+        $this->db->join('simkin.master_unit_kerja as b','a.id_unit_kerja=b.id');
+        $this->db->join('simkin.master_jabatan as c','b.id_jabatan=c.id');
+        $this->db->join('simkin.master_indikator_tupoksi as d','a.indikator_tupoksi=d.id');
+        $this->db->where('a.aktif','Y');
+        $this->db->where('a.id',$id);
+        $query = $this->db->get();
+        $indikator = $query->result();
+        if(!empty($indikator)){
+            return $indikator;
+         } else {
+            return array();
+        }
+    }
     public function datasMasterJabatan()
     {
         $this->db->select('*');

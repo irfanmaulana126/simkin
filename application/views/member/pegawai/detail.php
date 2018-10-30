@@ -22,22 +22,78 @@
               <h3 class="box-title">Responsive Hover Table</h3>
 
               <div class="box-tools">
-                <form action="<?= base_url();?>member/tupoksi" method="post">
                   <div class="input-group input-group-sm" style="width: 190px;float:left;">
-                    <input type="text" name="table_search" id="datepicker" class="form-control pull-right" placeholder="Cari tanggal">
+                    <input type="text" name="date" id="datepicker" class="form-control pull-right" placeholder="Cari tanggal">
+                    <input type="hidden" name="usr_id" id="usr_id" class="form-control pull-right" value="<?= $usr_id?>">
+                    <input type="hidden" name="unit" id="unit" class="form-control pull-right" value="<?= $unit?>">
 
                     <div class="input-group-btn">
-                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                      <button type="submit" onclick="table_search()" class="btn btn-default"><i class="fa fa-search"></i></button>
                     </div>
-                  <form>
                 </div>
-                &nbsp;
-                &nbsp;
-                      <a type="submit" href="<?= base_url()?>member/tupoksi/cetak/<?= $dates?>"  target='_blank' class="btn btn-default" style="height: 30px;padding: 5px 10px;font-size: 12px;line-height: 1.5;border-radius: 3px;"><i class="fa fa-print fa-2x"></i></a>
               </div>  
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+            <table>
+            <?php foreach ($pegawai as $key ) {?>
+                <tr>
+                    <td width="100px">
+                        Nama
+                    </td>
+                    <td>
+                    :
+                    </td>
+                    <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $key->pgw_nama; ?>
+                    </td>
+
+                </tr>	
+                    <tr>
+                    <td>
+                        Nip
+                    </td>
+                    <td>
+                    :
+                    </td>
+                    <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $key->pgw_nip; ?>
+                    </td>
+
+                </tr>	
+                    <tr>
+                    <td>
+                        Unit Kerja
+                    </td>
+                    <td>
+                    :
+                    </td>
+                    <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $key->nama_unit; ?>
+                    </td>
+                </tr>
+<?php } ?>
+                <tr>
+                    <td>
+                        Tanggal
+                    </td>
+                    <td>
+                    :
+                    </td>
+                    <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php echo date('F-Y', strtotime($dates)) ?>
+                    </td>
+                    
+                </tr>		
+                <tr>	
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
               <table class="table table-borderedr">
                <thead>
                 <tr>
@@ -51,6 +107,7 @@
                   <td><b>Capaian</b> </td>
                   <td><b>Bobot</b> </td>
                   <td><b>Hasil Kinerja</b> </td>
+                  <td><b>Action</b> </td>
                 </tr>
                </thead>
                <tbody>
@@ -63,7 +120,7 @@
                                 if($record->indikator_tupoksi=='1'){
                                 ?>
                 <tr>
-                  <td> <?= ++$a ?></td>
+                  <td><?= ++$a ?></td>
                   <td><?= $record->indikator ?></td>
                   <td><?= $record->difinisi ?></td>
                   <td class="text-center"><?= $record->target;$b+=$record->target ?></td>
@@ -76,6 +133,7 @@
                   <?php } ?>
                   <td class="text-center"><?= $record->bobot;$c+=$record->bobot ?></td>
                   <td class="text-center"><?= number_format($record->total,2);$e+=number_format($record->total,2) ?></td>
+                  <td class="text-center"><a class="btn btn-sm btn-info" onclick="edit('<?= $usr_id?>','<?= $record->id ?>','<?=$record->input?>','<?=$record->indikator_tupoksi?>')" title="Detail"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php $id_tindakan=$record->id;}}}
               }?>
@@ -89,11 +147,12 @@
                   <?php }?>
                   <td><b><?= $sumtotalkuantitasbobot=(empty($c))?'0':$c;?></b></td>
                   <td><b><?= $sumtotalkuantitashasil=(empty($e))?'0':$e;?></b></td>
+                  <td></td>
                 </tr>
                </tbody>
                <thead>
                 <tr>
-                  <td colspan="7">B. Kualitas</td>
+                  <td colspan="8">B. Kualitas</td>
                 </tr>  
                 <tr class="text-center">
                   <td><b>No</b></td>
@@ -103,6 +162,7 @@
                   <td><b>Capaian</b></td>
                   <td><b>Bobot</b></td>
                   <td><b>Hasil Kinerja</b></td>
+                  <td></td>
                 </tr>
                </thead>
                <tbody>
@@ -123,6 +183,7 @@
                   <td class="text-center"><?= $record->sumall;$h+=$record->sumall ?></td>
                   <td class="text-center"><?= $record->bobot;$g+=$record->bobot ?></td>
                   <td class="text-center"><?= number_format($record->total,2);$i+=number_format($record->total,2) ?></td>
+                  <td class="text-center"><a class="btn btn-sm btn-info" onclick="edit('<?= $usr_id?>','<?= $record->id ?>','<?=$record->input?>','<?=$record->indikator_tupoksi?>')" title="Detail"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php }}}}?>
                <tr class="text-center">
@@ -131,11 +192,12 @@
                   <td><b><?= $sumtotalkualitasnilai=(empty($h))?'0':$h;?></b></td>
                   <td><b><?= $sumtotalkualitasbobot=(empty($g))?'0':$g;?></b></td>
                   <td><b><?= $sumtotalkualitashasil=(empty($i))?'0':$i;?></b></td>
+                  <td></td>
                 </tr>
                </tbody>
                <thead>
                 <tr>
-                  <td colspan="7">C. Perilaku</td>
+                  <td colspan="8">C. Perilaku</td>
                 </tr>       
                 <tr class="text-center">
                   <td><b>No</b></td>
@@ -164,6 +226,7 @@
                   <td class="text-center"><?php echo $record->sumall; $l+=$record->sumall ?></td>
                   <td class="text-center"><?php echo $record->bobot; $k+=$record->bobot ?></td>
                   <td class="text-center"><?php echo number_format($record->total,2);$m+=number_format($record->total,2) ?></td>
+                  <td class="text-center"><a class="btn btn-sm btn-info" onclick="edit('<?= $usr_id?>','<?= $record->id ?>','<?=$record->input?>','<?=$record->indikator_tupoksi?>')" title="Detail"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php }}}}?>
                <tr class="text-center">
@@ -172,11 +235,13 @@
                   <td><b><?= $sumtotalperilakubobot=(empty($l))?'0':$l;?></b></td>
                   <td><b><?= $sumtotalperilakucapaian=(empty($k))?'0':$k;?></b></td>
                   <td><b><?= $sumtotalperilakuhasil=(empty($m))?'0':number_format($m,2);?></b></td>
+                  <td></td>
                 </tr>
                </tbody>
                <thead>
                 <tr>
                   <td colspan="7">D. Kegiatan Tambahan</td>
+                  <td class="text-center"><a class="btn btn-sm btn-info" onclick="kegiatan('<?= $usr_id?>')" title="Detail"><i class="fa fa-plus"></i></a></td>
                 </tr>       
                 <tr class="text-center">
                   <td><b>No</b></td>
@@ -186,6 +251,7 @@
                   <td><b>Capaian</b></td>
                   <td><b>Bobot</b></td>
                   <td><b>Hasil Kinerja</b></td>
+                  <td></td>
                 </tr>
                </thead>
                <tbody>
@@ -205,7 +271,8 @@
                   <td class="text-center"><?php echo $record->sumall; $l+=$record->sumall ?></td>
                   <td class="text-center"><?php echo $record->bobot; $k+=$record->bobot ?></td>
                   <td class="text-center"><?php echo number_format($record->total,2);$m+=number_format($record->total,2) ?></td>
-                </tr>
+                  <td class="text-center"><a class="btn btn-sm btn-danger delete" href="#" data-id="<?php echo $record->input; ?>" data-id_master_indikator="<?php echo $record->id; ?>"><i class="fa fa-trash"></i></a></td>
+              </tr>
                 <?php }}}}?>
                <tr class="text-center">
                   <td colspan="3"><b>Jumlah</b></td>
@@ -213,8 +280,9 @@
                   <td><b><?= $sumtotaltambahanbobot=(empty($l))?'0':$l;?></b></td>
                   <td><b><?= $sumtotaltambahancapaian=(empty($k))?'0':$k;?></b></td>
                   <td><b><?= $sumtotaltambahanhasil=(empty($m))?'0':number_format($m,2);?></b></td>
+                  <td></td>
                 </tr>
-                <tr><td colspan="7"></td></tr>
+                <tr><td colspan="8"></td></tr>
                <tr class="text-center">
                   <td colspan="6"><b>Total Keseluruhan</b></td>
                   <td><b><?= $sumtotalkuantitashasil + $sumtotalkualitashasil + $sumtotalperilakuhasil +  $sumtotaltambahanhasil?></b></td>
@@ -226,8 +294,102 @@
           </div>
           <!-- /.box -->
     </section>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Indikator Kualitas Pegawai</h5>
+      </div>
+      <div class="modal-body">
+    <form action="<?php echo base_url();?>member/PegawaiUnit/addNew" id="forms" method="POST">
+        <input type="hidden" name="usr_id" id="usr_ids">
+        <input type="hidden" name="indikator" id="id_indikators">
+        <input type="hidden" name="tupoksi" id="indikator_tupoksis">
+        <input type="hidden" name="date" value="<?= $dates ?>">
+        <input type="hidden" name="unit" value="<?= $unit ?>">
+        <div class="form-group">
+              <label >Capaian</label>
+              <input type="number" min='-1' name="nilai" id="nilai" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </form>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModaltambahan" role="dialog" aria-labelledby="exampleModaltambahanLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModaltambahanLabel">Tambah Kegiatan</h5>
+      </div>
+      <div class="modal-body">
+    <form action="<?php echo base_url();?>member/PegawaiUnit/addNew" id="form" method="POST">
+    <input type="hidden" name="usr_id" id="usr_idss">
+        <input type="hidden" name="date" value="<?= $dates ?>">
+        <input type="hidden" name="tupoksi" value="4">
+        <input type="hidden" name="unit" value="<?= $unit ?>">
+          <div class="form-group">
+              <label >Indikator</label>
+              <input type="text" name="indikator_keterangan" class="form-control">
+          </div>
+          <div class="form-group">
+              <label >definisi</label>
+              <input type="text" name="definisi" class="form-control">
+          </div>
+        
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </form>
+        </div>
+
+    </div>
+  </div>
+</div>
+
 </div>
 <script>
+jQuery(document).ready(function(){
+	
+	jQuery(document).on("click", ".delete", function(){
+		var id_input = $(this).data("id"),id_master_indikator = $(this).data("id_master_indikator"),
+			hitURL = baseURL + "member/PegawaiUnit/delete",
+			currentRow = $(this);
+		
+		var confirmation = confirm("Are you sure to delete this user ?");
+		
+		if(confirmation)
+		{
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : { id_input : id_input,id_master_indikator:id_master_indikator }
+			});
+            
+            location.reload();  
+		}
+	});
+	
+	
+	jQuery(document).on("click", ".searchList", function(){
+		
+	});
+	
+});
   $(function () {
     $('#datepicker').datepicker({
       format: "yyyy-mm",
@@ -239,4 +401,53 @@
 $('.showinfo').click(function(){
     $('.test',$(this).parent()).toggle();    
 });
+function table_search() {
+    var date = $('#datepicker').val();
+    var usr_id = $('#usr_id').val();
+    var unit = $('#unit').val();
+    window.location.href = "<?=base_url();?>member/PegawaiUnit/pegawaiDetail/"+usr_id+"/"+unit+"/"+date+"";
+}
+function edit(userId,id_indikator,id_input,indikator_tupoksi)
+{
+    if(id_input !== ''){
+        $.ajax({
+            url : "<?php echo base_url()?>member/PegawaiUnit/oldEdit/" + id_input,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {
+                $('#usr_ids').val(userId);
+                $('#id_indikators').val(id_indikator);
+                $('#nilai').val(data.nilai);
+                $('#indikator_tupoksis').val(data.indikator_tupoksi);
+                $('#forms').removeAttr('action'); // show bootstrap modal when complete loaded
+                $('#forms').attr('action', '<?php echo base_url();?>member/PegawaiUnit/edit/'+id_input); // show bootstrap modal when complete loaded
+                $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
+                $('.modal-title').text('Edit Indikator Pegawai'); // Set title to Bootstrap modal title
+
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }else{     
+        $('#usr_ids').val(userId);
+        $('#id_indikators').val(id_indikator);
+        $('#indikator_tupoksis').val(indikator_tupoksi);
+        $('#nilai').val('');
+        $('#forms').removeAttr('action'); // show bootstrap modal when complete loaded
+        $('#forms').attr('action', '<?php echo base_url();?>member/PegawaiUnit/addNew'); // show bootstrap modal when complete loaded
+        $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
+        $('.modal-title').text('Tambah Indikator Pegawai'); // Set title to Bootstrap modal title
+
+    }
+}
+function kegiatan(userId)
+{
+       
+        $('#usr_idss').val(userId);
+        $('#exampleModaltambahan').modal('show'); // show bootstrap modal when complete loaded
+        $('.modal-title').text('Tambah Kegiatan Indikator Pegawai'); // Set title to Bootstrap modal titl
+}
 </script>
