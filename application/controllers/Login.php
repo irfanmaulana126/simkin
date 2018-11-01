@@ -89,7 +89,7 @@ class Login extends CI_Controller
                 redirect('admin/Dashboard');
             }else{
                 if (!empty($this->session->userdata('unit'))) {
-                    if($this->session->userdata('tipe')=='0'){
+                    if($this->session->userdata('tipe')!='0'){
                         redirect('member/Dashboard');                        
                     }else{
                         redirect('member/tupoksi');                        

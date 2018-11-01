@@ -15,7 +15,7 @@ $pdf->SetMargins(10, 5, 10); // kiri, atas, kanan
 $pdf->setPrintHeader(false);
 $pdf->SetHeaderMargin(1); // mengatur jarak antara header dan top margin
 $pdf->SetFooterMargin(10); //  mengatur jarak minimum antara footer dan bottom margin
-$pdf->AddPage('P', 'A4');
+$pdf->AddPage('P', 'LETTER');
 
  
 

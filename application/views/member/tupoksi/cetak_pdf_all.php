@@ -15,7 +15,7 @@ $pdf->SetMargins(10, 10, 10); // kiri, atas, kanan
 $pdf->setPrintHeader(false);
 $pdf->SetHeaderMargin(1); // mengatur jarak antara header dan top margin
 $pdf->SetFooterMargin(10); //  mengatur jarak minimum antara footer dan bottom margin
-$pdf->AddPage('P', 'A4');
+$pdf->AddPage('P', 'LETTER');
 
  
 
@@ -71,15 +71,18 @@ $str='
 <table border="1" cellpadding="5">
     <thead>
         <tr align="center" bgcolor="#d3d3d3">
-            <td>Nama Pasien</td>
-            <td>Tanggal Transaksi</td>
+            <td  width="200px">Nama Pasien</td>
+            <td width="100px">Tanggal Tindakan</td>
+            <td  width="100px">Waktu Tindakan</td>
             <td>Jenis Folio</td>
         </tr>
-    </thead>';
+    </thead>
+    <tbody>';
    foreach($indikator as $row){
     $str.='<tr>
-        <td>'.$row->cust_usr_nama.'</td>
-        <td>'.$row->tindakan_tanggal.'</td>
+        <td  width="200px">'.$row->cust_usr_nama.'</td>
+        <td  width="100px">'.$row->tindakan_tanggal.'</td>
+        <td  width="100px">'.$row->tindakan_waktu.'</td>
         <td>'.$row->fol_nama.'</td>
     </tr>';
   }

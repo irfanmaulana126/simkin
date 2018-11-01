@@ -70,7 +70,8 @@
                 <tr>
                   <td>No</td>
                   <td>Nama Pasien</td>
-                  <td>Tanggal Kunjungan</td>
+                  <td>Tanggal Tindakan</td>
+                  <td>Watu Tindakan</td>
                   <td>Tindakan</td>
                 </tr>
                </thead>
@@ -86,6 +87,7 @@
                   <td><?= ++$a?></td>
                   <td><?= $record->cust_usr_nama?></td>
                   <td><?= $record->tindakan_tanggal?></td>
+                  <td><?= $record->tindakan_waktu?></td>
                   <td><?= $record->fol_nama?></td>
                 </tr>
                         <?php }}?>

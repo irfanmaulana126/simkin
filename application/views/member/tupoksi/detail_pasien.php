@@ -31,7 +31,8 @@
                 <tr>
                   <td>No</td>
                   <td>Nama Pasien</td>
-                  <td>Tanggal Kunjungan</td>
+                  <td>Tanggal Tindakan</td>
+                  <td>Waktu Tindakan</td>
                   <td>Tindakan</td>
                   <td>Capaian</td>
                 </tr>
