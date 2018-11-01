@@ -8,13 +8,14 @@ class tupoksi_model extends CI_Model
     {
         $query =$this->db->query("
         select f.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input from simkin.master_indikator as a 
-										INNER JOIN simkin.detail_indikator as b on a.id=b.id_master_indikator
-										INNER JOIN klinik.klinik_kategori_tindakan as c on b.id_tindakan=c.kategori_tindakan_id 
-										INNER JOIN klinik.klinik_biaya as d on d.biaya_kategori=c.kategori_tindakan_id 
-										INNER JOIN klinik.klinik_folio as e on e.id_biaya=d.biaya_id
-										INNER JOIN klinik.klinik_folio_pelaksana as f on f.id_fol= e.fol_id
-										INNER JOIN global.global_auth_user as g on g.usr_id=f.id_usr
-										INNER JOIN global.global_customer_user as h on e.id_cust_usr=h.cust_usr_id
+        INNER JOIN simkin.detail_indikator as b on a.id=b.id_master_indikator
+        INNER JOIN klinik.klinik_kategori_tindakan as c on b.id_tindakan=c.kategori_tindakan_id 
+        INNER JOIN klinik.klinik_biaya as d on d.biaya_kategori=c.kategori_tindakan_id 
+        INNER JOIN klinik.klinik_folio as e on e.id_biaya=d.biaya_id
+        INNER JOIN klinik.klinik_folio_pelaksana as f on f.id_fol= e.fol_id
+        INNER JOIN global.global_auth_user as g on g.usr_id=f.id_usr
+        INNER JOIN global.global_customer_user as h on e.id_cust_usr=h.cust_usr_id
+        INNER JOIN target_bobot as j on j.id_m_indikator=b.id_master_indikator
                     INNER JOIN hris.hris_pegawai as i on g.id_pgw=i.pgw_id WHERE fol_pelaksana_tipe IN('1','10')
                     and tindakan_tanggal::TEXT like '".$date."%' and usr_id='".$this->session->userdata('userId')."' and a.id='".$tupoksi."' and a.id_unit_kerja='".$this->session->userdata('unit')."' GROUP BY f.id_usr,fol_pelaksana_tipe,fol_pelaksana_nominal,fol_id,id_reg,fol_nama,cust_usr_nama,fol_nominal,tindakan_tanggal,tindakan_waktu,usr_id,indikator,difinisi,jns_input ORDER BY tindakan_tanggal DESC");
         $indikator = $query->result();
@@ -49,7 +50,7 @@ class tupoksi_model extends CI_Model
         (
         SELECT id_master_indikator as id ,usr_id,sum(nilai) as sumall,target,bobot from input_kegitan_tupoksi WHERE usr_id='".$this->session->userdata('userId')."' and created::TEXT like '".$date."%' and aktif='Y' GROUP BY id_master_indikator,usr_id,usr_insrt,aktif,target,bobot
         UNION
-        select a.id,f.id_usr as usr_id,count(cust_usr_nama) as sumall,target,bobot from simkin.master_indikator as a 
+        select a.id,f.id_usr as usr_id,count(DISTINCT cust_usr_nama) as sumall,target,bobot from simkin.master_indikator as a 
                                     INNER JOIN simkin.detail_indikator as b on a.id=b.id_master_indikator
                                     INNER JOIN klinik.klinik_kategori_tindakan as c on b.id_tindakan=c.kategori_tindakan_id 
                                     INNER JOIN klinik.klinik_biaya as d on d.biaya_kategori=c.kategori_tindakan_id 
