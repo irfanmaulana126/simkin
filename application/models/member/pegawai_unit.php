@@ -10,7 +10,7 @@ class pegawai_unit extends CI_Model
         $this->db->join('global.global_auth_user as c','a.pgw_id=c.id_pgw');
         $this->db->where('is_pegawai','y');
         $this->db->where('id_jabatan',$kode);
-        $this->db->where_in('tipe','0');
+        $this->db->where_in('tipe',array('0','2'));
         $query = $this->db->get();
         $indikator = $query->result();
         if(!empty($indikator)){
